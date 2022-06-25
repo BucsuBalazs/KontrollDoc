@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KontrollDoc.Layouts.DocList"
+             BackgroundColor="#7B68EE"
+             Title="Dokumentumok">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Szűrés" Order="Secondary"  Priority="1" />
+        <ToolbarItem Text="Új" Order="Secondary" Priority="2" Clicked="New_ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+    
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" Margin="5,5,5,5">
+            <Frame Padding="5,5,5,5" BackgroundColor="White" CornerRadius="10" Margin="5,5,5,5">
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="Center" HeightRequest="40" ColumnSpacing="0" RowSpacing="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.15*" />
+                        <ColumnDefinition Width="0.15*" />
+                        <ColumnDefinition Width="0.5*" />
+                        <ColumnDefinition Width="0.5*" />
+                        <!-- <ColumnDefinition Width="0.2*" /> -->
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" TextColor="#7B68EE" Text="Azonosító" HorizontalOptions="Center"/>
+                    <Label Grid.Column="1" TextColor="#7B68EE" Text="Partner kód" HorizontalOptions="Center"/>
+                    <Label Grid.Column="2" TextColor="#7B68EE" Text="Tárgy" HorizontalOptions="Center"/>
+                    <Label Grid.Column="3" TextColor="#7B68EE" Text="Dátum" HorizontalOptions="Center"/>
+                    <!-- <Label Grid.Column="4" TextColor="#7B68EE" Text="Határidő" HorizontalOptions="Center"/> -->
+                </Grid>
+            </Frame>
+            <ListView x:Name="DocListView" ItemTapped="DocListView_ItemTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame Padding="5,5,5,5" BackgroundColor="White" CornerRadius="10" Margin="5,5,5,5">
+                                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="Center" HeightRequest="20" ColumnSpacing="0" RowSpacing="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.15*" />
+                                        <ColumnDefinition Width="0.15*" />
+                                        <ColumnDefinition Width="0.5*" />
+                                        <ColumnDefinition Width="0.5*" />
+                                        <!-- <ColumnDefinition Width="0.2*" /> -->
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" TextColor="#7B68EE" Text="{Binding Azonosito}" HorizontalOptions="Center"/>
+                                    <Label Grid.Column="1" TextColor="#7B68EE" Text="{Binding PartnerAz}" HorizontalOptions="Center"/>
+                                    <Label Grid.Column="2" TextColor="#7B68EE" Text="{Binding Targy}" HorizontalOptions="Center"/>
+                                    <Label Grid.Column="3" TextColor="#7B68EE" Text="{Binding Datum}" HorizontalOptions="Center"/>
+                                    <!-- <Label Grid.Column="4" TextColor="#7B68EE" Text="{Binding Hatarido}" HorizontalOptions="Center"/> -->
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>

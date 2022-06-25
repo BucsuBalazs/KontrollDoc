@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KontrollDoc.MainPage"
+             BackgroundColor="#7B68EE"
+             Title="Belépés">
+
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
+            <!--
+            <Frame Padding="24" CornerRadius="0" BorderColor="White" Margin="0,0,0,80">
+                <Label Text="Üdvözlettel!" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+            </Frame>-->
+            
+            <Label Text="Üdvözöljük!" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+
+
+            <Frame Padding="20,20,20,20" BackgroundColor="White" WidthRequest="250" HorizontalOptions="Center" VerticalOptions="Center" CornerRadius="10">
+                <!--<Label Text="Belépés" TextColor="#7B68EE" FontSize="Title" HorizontalTextAlignment="center"/>-->
+                <StackLayout Orientation="Vertical" Spacing="5">
+                    <Entry Placeholder="Felhasználónév" PlaceholderColor="LightGray" x:Name="user" TextColor="#7B68EE"/>
+                    <Entry Placeholder="Jelszó" PlaceholderColor="LightGray" IsPassword="True" x:Name="password" TextColor="#7B68EE"/>
+                    <Button Text="Belépés" WidthRequest="100" HeightRequest="40" HorizontalOptions="Center" AutomationId="1" Clicked="OnNextPageButtonClicked" />
+                    <Label Text="valami félrement" x:Name="errorMessage" IsVisible="false" TextColor="#7B68EE"/>
+                    
+                </StackLayout>
+
+            </Frame>
+
+        </StackLayout>
+
+    </ContentPage.Content>
+
+</ContentPage>

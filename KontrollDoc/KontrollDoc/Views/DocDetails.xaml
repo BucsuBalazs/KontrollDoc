@@ -501,9 +501,10 @@
                              Grid.ColumnSpan="2"/>
 
                     <StackLayout Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Spacing="0" HorizontalOptions="Center" VerticalOptions="Center" Padding="0">
-                        <ListView x:Name="Mellékletek_ListView" BackgroundColor="White">
+                        <ListView x:Name="Mellékletek_ListView" HeightRequest="50" WidthRequest="220" >
                             <ListView.Header>
                                 <Grid Padding="0,0,0,0" Margin="0,0,0,0">
+                                    
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />

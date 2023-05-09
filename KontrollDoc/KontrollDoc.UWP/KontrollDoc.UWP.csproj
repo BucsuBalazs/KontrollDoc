@@ -20,13 +20,14 @@
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
-    <PackageCertificateThumbprint>A77DBDCBAB0169EDE5A4283C1CB2078130E5497A</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>F8724F36CA9FAB0EB73CA5182004C10A6BAA0309</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
     <AppInstallerUri>C:\Users\bucsu\Desktop\szakdolgozat\lead</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>

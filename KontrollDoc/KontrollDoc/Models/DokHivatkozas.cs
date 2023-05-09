@@ -10,14 +10,16 @@ namespace KontrollDoc.Models
         private string _DokFilenev;     // 2
         private string _DokPath;        // 3
         private bool _Inaktiv;          // 4
-        private string _ImageData;      // 5
+        private byte[] _ImageData;      // 5
+
+        public DokHivatkozas() { }
 
         public DokHivatkozas(
             int azon,
             string dokfilenev,
             string dokpath,
             bool inaktiv,
-            string imagedata
+            byte[] imagedata
 
             )
         {
@@ -32,6 +34,6 @@ namespace KontrollDoc.Models
         public string DokFilenev { get; set; }
         public string DokPath { get; set; }
         public bool Inaktiv { get; set; }
-        public string ImageData { get; set; }
+        public byte[] ImageData { get; set; }
     }
 }

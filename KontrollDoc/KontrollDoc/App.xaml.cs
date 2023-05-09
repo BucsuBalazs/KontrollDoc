@@ -12,10 +12,8 @@ namespace KontrollDoc
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new MainPage());
+            MainPage = new NavigationPage(new Views.LoginPage());
 
-            //MainPage = new NavigationPage(new SecondPage());
-            //MainPage = new NavigationPage(new LoginPage() );
         }
 
         protected override void OnStart()

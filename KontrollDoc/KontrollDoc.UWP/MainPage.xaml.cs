@@ -21,6 +21,9 @@ namespace KontrollDoc.UWP
         {
             this.InitializeComponent();
 
+            Windows.UI.ViewManagement.ApplicationView.PreferredLaunchViewSize = new Windows.Foundation.Size(500, 600);
+            Windows.UI.ViewManagement.ApplicationView.PreferredLaunchWindowingMode = Windows.UI.ViewManagement.ApplicationViewWindowingMode.PreferredLaunchViewSize;
+
             LoadApplication(new KontrollDoc.App());
         }
     }

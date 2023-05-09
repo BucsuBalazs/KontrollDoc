@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KontrollDoc.Views.DokTorzsItem"
+             BackgroundColor="#7B68EE"
+             Title="DokTorzs">
+    
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
+            <Label Text="Kiválasztott Törzs dokumentum:" HorizontalOptions="Center" VerticalOptions="Start" HorizontalTextAlignment="Center" FontSize="Large" TextColor="White"/>
+            <Frame Padding="20,20,20,20" BackgroundColor="White" WidthRequest="250" HorizontalOptions="Center" CornerRadius="10" Margin="10,20,10,10">
+                <StackLayout Orientation="Vertical" Spacing="16">
+                    <Entry x:Name="Megnevezes_Entry" PlaceholderColor="LightGray" Placeholder="Megnevezes" TextColor="#7B68EE"/>
+                    <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Label Text="Használt:" TextColor="#7B68EE" VerticalOptions="Center"/>
+                        <CheckBox x:Name="Hasznalat_Checkbox" Color="#7B68EE" />
+                    </StackLayout>
+                    <Button x:Name="Submit" Text="Rögzít" BorderWidth="2"  BackgroundColor="#2196F3" TextColor="White" WidthRequest="100" HeightRequest="40" HorizontalOptions="Center" AutomationId="1" Clicked="Submit_Clicked" />
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

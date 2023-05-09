@@ -1,0 +1,482 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KontrollDoc.Views.DocList"
+             BackgroundColor="#7B68EE"
+             BarBackgroundColor="#2196F3"
+             BarTextColor="White"
+             NavigationPage.HasNavigationBar="True"
+             Title="Dokumentumok">
+
+    <NavigationPage.TitleView>
+        <Grid HorizontalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Text="Új" TextColor="White" BackgroundColor="#2196F3" Grid.Column="1" Clicked="Uj_Clicked"/>
+        </Grid>
+    </NavigationPage.TitleView>
+
+    <ContentPage Title="Listázás">
+        <StackLayout Orientation="Vertical" WidthRequest="2000">
+            <Frame Padding="5,5,5,5" BackgroundColor="White" CornerRadius="0" Margin="5,5,5,5">
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="30" ColumnSpacing="0" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.15*" />
+                        <ColumnDefinition Width="0.2*" />
+                        <ColumnDefinition Width="0.5*" />
+                        <ColumnDefinition Width="0.5*" />
+                        <!-- <ColumnDefinition Width="0.2*" /> -->
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" TextColor="#7B68EE" Text="Azon" HorizontalOptions="Center"/>
+                    <Label Grid.Column="1" TextColor="#7B68EE" Text="Partner" HorizontalOptions="Center"/>
+                    <Label Grid.Column="2" TextColor="#7B68EE" Text="Tárgy" HorizontalOptions="Center"/>
+                    <Label Grid.Column="3" TextColor="#7B68EE" Text="Dátum" HorizontalOptions="Center"/>
+                    <!-- <Label Grid.Column="4" TextColor="#7B68EE" Text="Határidő" HorizontalOptions="Center"/> -->
+                </Grid>
+            </Frame>
+            <ListView x:Name="DocListView" ItemTapped="DocListView_ItemTapped" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame Padding="5,5,5,5" BackgroundColor="White" CornerRadius="10" Margin="5,5,5,5">
+                                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="Center" HeightRequest="20" ColumnSpacing="0" RowSpacing="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.15*" />
+                                        <ColumnDefinition Width="0.15*" />
+                                        <ColumnDefinition Width="0.5*" />
+                                        <ColumnDefinition Width="0.5*" />
+                                        <!-- <ColumnDefinition Width="0.2*" /> -->
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" TextColor="#7B68EE" Text="{Binding Azonosito}" HorizontalOptions="Center"/>
+                                    <Label Grid.Column="1" TextColor="#7B68EE" Text="{Binding PartnerAz}" HorizontalOptions="Center"/>
+                                    <Label Grid.Column="2" TextColor="#7B68EE" Text="{Binding Targy}" HorizontalOptions="Center"/>
+                                    <Label Grid.Column="3" TextColor="#7B68EE" Text="{Binding Datum}" HorizontalOptions="Center"/>
+                                    <!-- <Label Grid.Column="4" TextColor="#7B68EE" Text="{Binding Hatarido}" HorizontalOptions="Center"/> -->
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label x:Name="countLabel" Text="" FontSize="Small" TextColor="White"/>
+        </StackLayout>
+    </ContentPage>
+
+    <ContentPage Title="Szűrés" >
+        <ScrollView WidthRequest="2000">
+            <Grid BackgroundColor="#C0E8D5" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="4,4,4,4" Padding="5,5,5,5" ColumnSpacing="2" RowSpacing="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2.0*" />
+                </Grid.ColumnDefinitions>
+
+                <BoxView 
+                    Grid.Row="0"
+                    Grid.Column="0"/>
+
+                <Label  
+                    Grid.Row="0"
+                    Grid.Column="0" 
+                    Text="Típus:" 
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="0"
+                    Grid.Column="1"/>
+
+                <Picker
+                    SelectedIndexChanged="Tipus_Picker_SelectedIndexChanged"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    x:Name="Tipus_Picker"
+                    Scale="1" 
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="1"
+                    Grid.Column="0"/>
+
+                <Label 
+                    Grid.Row="1"
+                    Grid.Column="0" 
+                    Text="Külső iktatószám:" 
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="1"
+                    Grid.Column="1"/>
+
+                <Entry 
+                    TextChanged="Iktato_Entry_TextChanged"
+                    x:Name="Iktato_Entry"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Scale="1" 
+                    WidthRequest="300" 
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="2"
+                    Grid.Column="0"/>
+
+                <Label 
+                    Grid.Row="2"
+                    Grid.Column="0" 
+                    Text="Nem használt:" 
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="2"
+                    Grid.Column="1"/>
+
+                <CheckBox 
+                    CheckedChanged="Hasznalt_CheckBox_CheckedChanged"
+                    x:Name="Hasznalt_CheckBox"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Scale="1" 
+                    Color="#5CB8B2"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="3"
+                    Grid.Column="0"/>
+
+                <Label 
+                    Grid.Row="3"
+                    Grid.Column="0" 
+                    Text="Partner kód:" 
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView
+                    Grid.Row="3"
+                    Grid.Column="1"/>
+
+                <Picker 
+                    SelectedIndexChanged="Partner_Kod_Picker_SelectedIndexChanged"
+                    x:Name="Partner_Kod_Picker"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Scale="1" 
+                    WidthRequest="300" 
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="4"
+                    Grid.Column="0"/>
+
+                <Label 
+                    Grid.Row="4"
+                    Grid.Column="0" 
+                    Text="Partner cég:" 
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView
+                    Grid.Row="4"
+                    Grid.Column="1"/>
+
+                <Picker 
+                    SelectedIndexChanged="Partner_Nev_Picker_SelectedIndexChanged"
+                    x:Name="Partner_Nev_Picker"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Scale="1" 
+                    WidthRequest="300" 
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="5"
+                    Grid.Column="0"/>
+
+                <Label 
+                    Grid.Row="5"
+                    Grid.Column="0" 
+                    Text="Sorszám:" 
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="5"
+                    Grid.Column="1"/>
+
+                <Entry
+                    TextChanged="Sorszam_Entry_TextChanged"
+                    x:Name="Sorszam_Entry"
+                    Text=""
+                    IsEnabled="True"
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Scale="1" 
+                    WidthRequest="300" 
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="6"
+                    Grid.Column="0"/>
+
+                <Label 
+                    Grid.Row="6"
+                    Grid.Column="0" 
+                    Text="Téma:" 
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="6"
+                    Grid.Column="1"/>
+
+
+                <Picker 
+                    SelectedIndexChanged="Tema_Picker_SelectedIndexChanged"
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Scale="1" 
+                    x:Name="Tema_Picker"
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="7"
+                    Grid.Column="0"/>
+
+                <Label 
+                    Grid.Row="7"
+                    Grid.Column="0" 
+                    Text="Tárgy:" 
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="7"
+                    Grid.Column="1"/>
+
+                <Entry 
+                    TextChanged="Targy_Entry_TextChanged"
+                    x:Name="Targy_Entry"
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Scale="1" 
+                    WidthRequest="300" 
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center"/>
+
+                <BoxView Grid.Row="8"
+                             Grid.Column="0"/>
+
+                <Label  Grid.Row="8"
+                    Grid.Column="0" 
+                    Text="Telefon:" 
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView Grid.Row="8"
+                             Grid.Column="1"/>
+
+                <Entry 
+                    TextChanged="Telefon_Entry_TextChanged"
+                    x:Name="Telefon_Entry"
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    Scale="1" 
+                    WidthRequest="300" 
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center"/>
+
+                <BoxView Grid.Row="9"
+                             Grid.Column="0"/>
+
+                <Label  Grid.Row="9"
+                    Grid.Column="0" 
+                    Text="Hordozó:" 
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="9"
+                    Grid.Column="1"/>
+
+                <Picker 
+                    SelectedIndexChanged="Hordozo_Picker_SelectedIndexChanged"
+                    Grid.Row="9"
+                    Grid.Column="1"
+                    Scale="1" 
+                    x:Name="Hordozo_Picker"
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center"/>
+
+
+                <BoxView Grid.Row="10"
+                    Grid.Column="0"/>
+
+                <Label  Grid.Row="10"
+                    Grid.Column="0" 
+                    Text="Felvétel Dátuma:" 
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView Grid.Row="10"
+                             Grid.Column="1"/>
+
+                <StackLayout Grid.Row="10" Grid.Column="1" Orientation="Horizontal">
+
+                    <CheckBox
+                        CheckedChanged="Felvetel_Checkbox_CheckedChanged"
+                        x:Name="Felvetel_Checkbox"
+                        Color="#5CB8B2"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <DatePicker 
+                        PropertyChanged="Felvetel_DatePicker_PropertyChanged"
+                        x:Name="Felvetel_DatePicker"
+                        Scale="1" 
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"
+                        IsEnabled="False"/>
+                </StackLayout>
+
+                <BoxView 
+                    Grid.Row="11"
+                    Grid.Column="0"/>
+
+                <Label  Grid.Row="11"
+                    Grid.Column="0" 
+                    Text="Határidő Dátuma:" 
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="11"
+                    Grid.Column="1"/>
+                
+                <StackLayout Grid.Row="11" Grid.Column="1" Orientation="Horizontal">
+                    <CheckBox
+                        CheckedChanged="Hatarido_Checkbox_CheckedChanged"
+                        x:Name="Hatarido_Checkbox"
+                        Color="#5CB8B2"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+                    
+                    <DatePicker 
+                        PropertyChanged="Hatarido_DatePicker_PropertyChanged"
+                        x:Name="Hatarido_DatePicker"
+                        Scale="1" 
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"
+                        IsEnabled="False"/>
+                </StackLayout>
+
+                <BoxView Grid.Row="12"
+                             Grid.Column="0"/>
+
+                <Label 
+                    Grid.Row="12"
+                    Grid.Column="0" 
+                    Text="Projekthivatkozás:" 
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="12"
+                    Grid.Column="1"/>
+
+                <Picker 
+                    SelectedIndexChanged="Project_Picker_SelectedIndexChanged"
+                    Grid.Row="12"
+                    Grid.Column="1"
+                    x:Name="Project_Picker"
+                    Scale="1" 
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center"/>
+
+
+                <BoxView 
+                    Grid.Row="13"
+                    Grid.Column="0"/>
+
+                <Label 
+                    Grid.Row="13"
+                    Grid.Column="0" 
+                    Text="Megjegyzés:" 
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="13"
+                    Grid.Column="1"/>
+
+                <Entry 
+                    TextChanged="Megjegyzes_Entry_TextChanged"
+                    x:Name="Megjegyzes_Entry"
+                    Grid.Row="13"
+                    Grid.Column="1"
+                    Scale="1" 
+                    WidthRequest="300" 
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center"/>
+
+
+            </Grid>
+        </ScrollView>
+    </ContentPage>
+
+</TabbedPage>

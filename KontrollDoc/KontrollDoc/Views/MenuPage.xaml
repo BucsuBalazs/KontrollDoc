@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KontrollDoc.SecondPage"
+             x:Class="KontrollDoc.Views.MenuPage"
              BackgroundColor="#7B68EE"
              Title="Főmenü">
 
     <ContentPage.Content>
+
         <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
             <Label Text="Üdvözöljük User!" HorizontalOptions="Center" VerticalOptions="Start" HorizontalTextAlignment="Center" FontSize="36" TextColor="White" x:Name="welcomeText"/>
             <Frame Padding="20,20,20,20" BackgroundColor="White" WidthRequest="250" HorizontalOptions="Center" CornerRadius="10" Margin="10,20,10,10">
@@ -13,15 +14,14 @@
                     <Button Text="Dokumentumok" CornerRadius="20" TextColor="White" BackgroundColor="#7B68EE" Clicked="Docs_Clicked"/>
                     <Button Text="CégKontroll partnertörzs" CornerRadius="20" TextColor="White" BackgroundColor="#7B68EE"/>
                     <Button Text="Hozzáférési jogosultságok" CornerRadius="20" TextColor="White" BackgroundColor="#7B68EE"/>
-                    <Button Text="Feladatkezelő" CornerRadius="20" TextColor="White" BackgroundColor="#7B68EE" Clicked="Feladat_Clicked"/>
+                    <Button Text="Szkennelés" CornerRadius="20" TextColor="White" BackgroundColor="#7B68EE"/>
                 </StackLayout>
             </Frame>
-            <!--<Label Text="Cégkontroll rendszer leírás" TextColor="White" FontAttributes="Italic">
+            <Label Text="Cégkontroll rendszer leírás" TextColor="White" FontAttributes="Italic" HorizontalOptions="Center" VerticalOptions="Center">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="GoFit" />
                 </Label.GestureRecognizers>
-            </Label>-->
-            <Button Text="Cégkontroll rendszer leírás" CornerRadius="20" TextColor="White" BackgroundColor="#7B68EE" WidthRequest="400" FontAttributes="Italic" Clicked="GoFit"/>
+            </Label>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

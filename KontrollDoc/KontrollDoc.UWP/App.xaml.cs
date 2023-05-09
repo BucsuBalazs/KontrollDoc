@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+//using Windows.Devices.Scanners;
 
 namespace KontrollDoc.UWP
 {
@@ -31,7 +32,9 @@ namespace KontrollDoc.UWP
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-            //CommandBar.IsOpenProperty = true;
+            //var picker = new ScannerPicker();
+
+            //Windows.Devices.Scanners
         }
 
         /// <summary>

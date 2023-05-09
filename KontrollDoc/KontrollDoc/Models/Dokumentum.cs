@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+using FIT_Common;
 
 namespace KontrollDoc.Models
 {
-    internal class Dokumentum
+    internal  class Dokumentum
     {
         // dbo.Dokumentum
         private int _Azonosito;         // 1
-        private bool? _FoDokumentum;     // 2
+        private int? _FoDokumentum;     // 2
         private int _TipusAz;           // 3
         private int _Sorszam;           // 4
         private string _Iktato;            // 5
@@ -35,7 +37,7 @@ namespace KontrollDoc.Models
 
         public Dokumentum(
             int azon,
-            bool? fodokumentum,
+            int? fodokumentum,
             int tipus,
             int sorszam,
             string iktatoSzam,
@@ -85,8 +87,10 @@ namespace KontrollDoc.Models
 
         ~Dokumentum() { Console.WriteLine("Dokumentum torolve"); }
 
+
+
         public int Azonosito { get => _Azonosito; set => _Azonosito = value; }
-        public bool? FoDokumentum { get => _FoDokumentum; set => _FoDokumentum = value; }
+        public int? FoDokumentum { get => _FoDokumentum; set => _FoDokumentum = value; }
         public int TipusAz { get => _TipusAz; set => _TipusAz = value; }
         public int Sorszam { get => _Sorszam; set => _Sorszam = value; }
         public string Iktato { get => _Iktato; set => _Iktato = value; }
@@ -108,5 +112,44 @@ namespace KontrollDoc.Models
         public DateTime? LMD { get => _LMD; set => _LMD = value; }
         public bool? Bizalmas { get => _Bizalamas; set => _Bizalamas = value; }
         public bool? Inaktiv { get => _Inaktiv; set => _Inaktiv = value; }
+
+        public List<Dokumentum> GetDokumentumok(DB dbc)
+        {
+            List<System.Data.SqlClient.SqlParameter> empty = new List<System.Data.SqlClient.SqlParameter>();
+            var dt = dbc.GetTableFromSPAB("DokumentumLista", empty);
+
+            List<Dokumentum> dokumentumok = new List<Dokumentum>();
+
+            foreach (System.Data.DataRow row in dt.Rows)
+            {
+                Dokumentum dokumentum = new Dokumentum();
+                dokumentum.Azonosito = (int)row["Azonosito"];
+                if (row["FoDokumentum"] != DBNull.Value) { dokumentum.FoDokumentum = (int)row["FoDokumentum"]; } else { dokumentum.FoDokumentum = null; }
+                dokumentum.TipusAz = (int)row["TipusAz"];
+                dokumentum.Sorszam = (int)row["Sorszam"];
+                if (row["Iktato"] != DBNull.Value) { dokumentum.Iktato = (string)row["Iktato"]; } else { dokumentum.Iktato = null; }
+                dokumentum.PartnerAz = (int)row["PartnerAz"];
+                dokumentum.TemaAz = (int)row["TemaAz"];
+                dokumentum.Targy = (string)row["Targy"];
+                dokumentum.HordozoAz = (int)row["HordozoAz"];
+                dokumentum.UgyintezoAz = (int)row["UgyintezoAz"];
+                dokumentum.Datum = (DateTime)row["Datum"];
+                if (row["Hatarido"] != DBNull.Value) { dokumentum.Hatarido = (DateTime)row["Hatarido"]; } else { dokumentum.Hatarido = null; }
+                dokumentum.FontossagAz = (int)row["FontossagAz"];
+                dokumentum.AllapotAz = (int)row["AllapotAz"];
+                dokumentum.ProjecktHivatkozasAz = (int)row["ProjektHivatkozasAz"];
+                dokumentum.Megjegyzes = (string)row["Megjegyzes"];
+                dokumentum.Telefonszam = (string)row["Telefonszam"];
+                if (row["CRU"] != DBNull.Value) { dokumentum.CRU = (int)row["CRU"]; } else { dokumentum.CRU = null; }
+                if (row["CRD"] != DBNull.Value) { dokumentum.CRD = (DateTime)row["CRD"]; } else { dokumentum.CRD = null; }
+                if (row["LMU"] != DBNull.Value) { dokumentum.LMU = (int)row["LMU"]; } else { dokumentum.LMU = null; }
+                if (row["LMD"] != DBNull.Value) { dokumentum.LMD = (DateTime)row["LMD"]; } else { dokumentum.LMD = null; }
+                if (row["Bizalmas"] != DBNull.Value) { dokumentum.Bizalmas = (bool)row["Bizalmas"]; } else { dokumentum.Bizalmas = null; }
+                if (row["Inaktiv"] != DBNull.Value) { dokumentum.Inaktiv = (bool)row["Inaktiv"]; } else { dokumentum.Inaktiv = null; }
+                dokumentumok.Add(dokumentum);
+            }
+            return dokumentumok;
+        }
+
     }
 }

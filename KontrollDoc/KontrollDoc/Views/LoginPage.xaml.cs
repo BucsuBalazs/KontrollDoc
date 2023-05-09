@@ -8,14 +8,13 @@ using Xamarin.Forms;
 
 using System.Data.SqlClient;
 
-using CAVO3;
+using FIT_Common;
 
-namespace KontrollDoc
+namespace KontrollDoc.Views
 {
-    public partial class MainPage : ContentPage
+    public partial class LoginPage : ContentPage
     {
-
-        public MainPage()
+        public LoginPage()
         {
             InitializeComponent();
         }
@@ -28,17 +27,19 @@ namespace KontrollDoc
             password.Text = "Bazsa123";
         }
 
-        public static DB dbc;
-        public static long uid;
 
         async void OnNextPageButtonClicked(object sender, EventArgs e)
         {
-            dbc = new DB("KontrollDoc", true);
+
+            DB dbc = new DB("ANCSA", true);
+
             long uid = dbc.LoginPassThrough(user.Text, password.Text);
             if (uid != 0)
             {
                 dbc.SetAdatbazisId(241);
-                await Navigation.PushAsync(new SecondPage());
+
+                Navigation.InsertPageBefore(new MenuPage(dbc), this);
+                await Navigation.PopAsync();
             }
             else
             {

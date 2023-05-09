@@ -4,9 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:KontrollDoc.UWP">
     <Application.Resources>
-        <Style TargetType="CommandBar">
-            <Setter Property="IsOpen" Value="True"/>
-        </Style>
     </Application.Resources>
 
 </Application>

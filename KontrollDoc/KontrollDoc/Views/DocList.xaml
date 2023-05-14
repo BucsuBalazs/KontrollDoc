@@ -173,9 +173,9 @@
                     Grid.Row="3"
                     Grid.Column="1"/>
 
-                <Picker 
-                    SelectedIndexChanged="Partner_Kod_Picker_SelectedIndexChanged"
-                    x:Name="Partner_Kod_Picker"
+                <Entry 
+                    TextChanged="Partner_Kod_Entry_TextChanged"
+                    x:Name="Partner_Kod_Entry"
                     Grid.Row="3"
                     Grid.Column="1"
                     Scale="1" 

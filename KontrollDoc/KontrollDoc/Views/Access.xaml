@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KontrollDoc.Views.Access"
+             BackgroundColor="#7B68EE"
+             Title="Hozzáférés">
+    
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" HorizontalOptions="Center" Margin="0,10,0,0">
+            <Frame 
+                x:Name="NoAcces" 
+                Padding="20,20,20,20" 
+                BackgroundColor="White" 
+                WidthRequest="250" 
+                HorizontalOptions="Center" 
+                CornerRadius="10" 
+                Margin="10,20,10,10" 
+                IsVisible="false">
+                <StackLayout Orientation="Vertical">
+                    <Label x:Name="NoAcces_Label" TextColor="Gray" Text="Nincs"/>
+                    <Label  TextColor="Gray" Text="Elérhetőségeink:"/>
+                    <Label  TextColor="Gray" Text="Telefon: 79/426-427, H-P: 8-16h"/>
+                    <Label  TextColor="Gray" Text="Hotline: 30/915-69-13, H-P: 7-18h, Sz: 7-12h"/>
+                    <Label  TextColor="Gray" Text="E-mail: szoftver@fit.hu"/>
+                </StackLayout>
+            </Frame>
+
+            <Frame 
+                x:Name="Acces" 
+                Padding="20,20,20,20" 
+                BackgroundColor="White" 
+                WidthRequest="250" 
+                HorizontalOptions="Center" 
+                CornerRadius="10" 
+                Margin="10,20,10,10" 
+                IsVisible="false">
+                <Label x:Name="Acces_Label" TextColor="Gray" Text="Van"/>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,405 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KontrollDoc.Views.PartnerEdit"
+             BackgroundColor="#7B68EE"
+             Title="Partner módosítása">
+
+    <NavigationPage.TitleView>
+        <Grid HorizontalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <Button 
+                Text="Frissít" 
+                TextColor="White" 
+                BackgroundColor="#2196F3" 
+                Grid.Column="1" 
+                Clicked="Frissit_Clicked"/>
+
+        </Grid>
+    </NavigationPage.TitleView>
+
+    <ContentPage.Content>
+        <ScrollView Margin="10,10,10,10">
+            <Frame BackgroundColor="#C0E8D5" Margin="0,0,0,0" Padding="0,0,0,0" HorizontalOptions="Fill" VerticalOptions="Center" CornerRadius="10">
+                <Grid BackgroundColor="#C0E8D5" HorizontalOptions="Fill" VerticalOptions="Center" Margin="4,4,4,4" Padding="2,2,2,2" ColumnSpacing="2" RowSpacing="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2.0*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label  
+                        Grid.Row="0"
+                        Grid.Column="0" 
+                        Text="Kód:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Entry 
+                        x:Name="Kod_Entry"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Scale="1" 
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="1"
+                        Grid.Column="0" 
+                        Text="Név:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Entry 
+                        x:Name="Nev_Entry"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Scale="1" 
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="2"
+                        Grid.Column="0" 
+                        Text="Kereső név:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Entry 
+                        x:Name="KNev_Entry"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Scale="1" 
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="3"
+                        Grid.Column="0" 
+                        Text="Helyseg:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Picker
+                        x:Name="Helyseg_Picker"
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Scale="1" 
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="4"
+                        Grid.Column="0" 
+                        Text="Cím:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Entry 
+                        x:Name="Cim_Entry"
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Scale="1" 
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="5"
+                        Grid.Column="0" 
+                        Text="Telefon:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Entry 
+                        x:Name="Tel_Entry"
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        Scale="1" 
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="6"
+                        Grid.Column="0" 
+                        Text="FAX:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Entry 
+                        x:Name="FAX_Entry"
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        Scale="1" 
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="7"
+                        Grid.Column="0" 
+                        Text="Web lap:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Entry 
+                        x:Name="Web_Entry"
+                        Grid.Row="7"
+                        Grid.Column="1"
+                        Scale="1" 
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="8"
+                        Grid.Column="0" 
+                        Text="E-Mail:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Entry 
+                        x:Name="Email_Entry"
+                        Grid.Row="8"
+                        Grid.Column="1"
+                        Scale="1" 
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="9"
+                        Grid.Column="0" 
+                        Text="Bank számla:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Entry 
+                        x:Name="Bank_Entry"
+                        Grid.Row="9"
+                        Grid.Column="1"
+                        Scale="1" 
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="10"
+                        Grid.Column="0" 
+                        Text="Adó szám:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Entry 
+                        x:Name="Ado_Entry"
+                        Grid.Row="10"
+                        Grid.Column="1"
+                        Scale="1" 
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="11"
+                        Grid.Column="0" 
+                        Text="Jöv.eng.szám:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Entry 
+                        x:Name="Jov_Entry"
+                        Grid.Row="11"
+                        Grid.Column="1"
+                        Scale="1"
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="12"
+                        Grid.Column="0" 
+                        Text="Hitel keret:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Entry 
+                        
+                        Keyboard="Numeric"
+                        
+                        x:Name="Hitel_Entry"
+                        Grid.Row="12"
+                        Grid.Column="1"
+                        Scale="1"
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="13"
+                        Grid.Column="0" 
+                        Text="Megjegyzes:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Entry 
+                        x:Name="Megjegyzes_Entry"
+                        Grid.Row="13"
+                        Grid.Column="1"
+                        Scale="1"
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="14"
+                        Grid.Column="0" 
+                        Text="Bizonylat típus:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Picker
+                        x:Name="Bizonylat_Picker"
+                        Grid.Row="14"
+                        Grid.Column="1"
+                        Scale="1"
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    
+                    <Label  
+                        Grid.Row="15"
+                        Grid.Column="0" 
+                        Text="Fizetési mód:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Picker
+                        x:Name="Fizetes_Picker"
+                        Grid.Row="15"
+                        Grid.Column="1"
+                        Scale="1"
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="16"
+                        Grid.Column="0" 
+                        Text="Ártípus:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Picker
+                        x:Name="Artipus_Picker"
+                        Grid.Row="16"
+                        Grid.Column="1"
+                        Scale="1"
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="17"
+                        Grid.Column="0" 
+                        Text="Fizetési Határidő:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <Entry 
+                        x:Name="Fizetesi_Hatarido_Entry"
+                        Grid.Row="17"
+                        Grid.Column="1"
+                        Scale="1"
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
+
+                    <Label  
+                        Grid.Row="18"
+                        Grid.Column="0" 
+                        Text="Nem használt:" 
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+                    <CheckBox  
+                        x:Name="Inaktiv_Checkbox"
+                        Grid.Row="18"
+                        Grid.Column="1"
+                        Scale="1" 
+                        Color="#5CB8B2"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+
+
+
+
+
+                </Grid>
+            </Frame>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

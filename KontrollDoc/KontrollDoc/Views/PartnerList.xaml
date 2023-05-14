@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="KontrollDoc.Views.PartnerList"
+            BackgroundColor="#7B68EE"
+            BarBackgroundColor="#2196F3"
+            BarTextColor="White"
+            NavigationPage.HasNavigationBar="True"
+            Title="Partnerek">
+    
+    
+    <NavigationPage.TitleView>
+        <Grid HorizontalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Text="Új" TextColor="White" BackgroundColor="#2196F3" Grid.Column="1" Clicked="Uj_Clicked"/>
+        </Grid>
+    </NavigationPage.TitleView>
+
+    <ContentPage Title="Listázás">
+        <StackLayout Orientation="Vertical" WidthRequest="2000">
+            <Frame Padding="5,5,5,5" BackgroundColor="White" CornerRadius="0" Margin="5,5,5,5">
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="30" ColumnSpacing="0" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.3*" />
+                        <ColumnDefinition Width="0.7*" />
+                        <!-- <ColumnDefinition Width="0.2*" /> -->
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" TextColor="#7B68EE" Text="Kod" HorizontalOptions="Center"/>
+                    <Label Grid.Column="1" TextColor="#7B68EE" Text="Nev" HorizontalOptions="Center"/>
+                    <!-- <Label Grid.Column="4" TextColor="#7B68EE" Text="Határidő" HorizontalOptions="Center"/> -->
+                </Grid>
+            </Frame>
+            <ListView x:Name="PartnerListView" ItemTapped="PartnerListView_ItemTapped" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame Padding="5,5,5,5" BackgroundColor="White" CornerRadius="10" Margin="5,5,5,5">
+                                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="Center" HeightRequest="20" ColumnSpacing="0" RowSpacing="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.3*" />
+                                        <ColumnDefinition Width="0.7*" />
+                                        <!-- <ColumnDefinition Width="0.2*" /> -->
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" TextColor="#7B68EE" Text="{Binding kod}" HorizontalOptions="Center"/>
+                                    <Label Grid.Column="1" TextColor="#7B68EE" Text="{Binding Nev}" HorizontalOptions="Center"/>
+                                    <!-- <Label Grid.Column="4" TextColor="#7B68EE" Text="{Binding Hatarido}" HorizontalOptions="Center"/> -->
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label x:Name="countLabel" Text="" FontSize="Small" TextColor="White"/>
+        </StackLayout>
+    </ContentPage>
+
+    <ContentPage Title="Szűrés" >
+        <ScrollView WidthRequest="2000">
+            <Grid BackgroundColor="#C0E8D5" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="4,4,4,4" Padding="5,5,5,5" ColumnSpacing="2" RowSpacing="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2.0*" />
+                </Grid.ColumnDefinitions>
+
+                <BoxView 
+                    Grid.Row="0"
+                    Grid.Column="0"/>
+
+                <Label  
+                    Grid.Row="0"
+                    Grid.Column="0" 
+                    Text="Kód:" 
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="0"
+                    Grid.Column="1"/>
+
+                <Entry
+                    TextChanged="Kod_Entry_TextChanged"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    x:Name="Kod_Entry"
+                    Scale="1" 
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="1"
+                    Grid.Column="0"/>
+
+                <Label 
+                    Grid.Row="1"
+                    Grid.Column="0" 
+                    Text="Név" 
+                    TextColor="Black"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+                <BoxView 
+                    Grid.Row="1"
+                    Grid.Column="1"/>
+
+                <Entry 
+                    TextChanged="Nev_Entry_TextChanged"
+                    x:Name="Nev_Entry"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Scale="1" 
+                    WidthRequest="300" 
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center"/>
+
+                
+
+
+            </Grid>
+        </ScrollView>
+        
+        
+    </ContentPage>
+</TabbedPage>

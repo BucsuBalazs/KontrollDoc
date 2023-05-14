@@ -105,7 +105,14 @@ namespace KontrollDoc.Models
         public int AllapotAz { get => _AllapotAz; set => _AllapotAz = value; }
         public int ProjecktHivatkozasAz { get => _ProjecktHivatkozasAz; set => _ProjecktHivatkozasAz = value; }
         public string Megjegyzes { get => _Megjegyzes; set => _Megjegyzes = value; }
-        public string Telefonszam { get => _Telefonszam; set => _Telefonszam = value; }
+
+        private string _telefonszam = null;
+
+        public string Telefonszam
+        {
+            get { return _telefonszam; }
+            set { _telefonszam = value; }
+        }
         public int? CRU { get => _CRU; set => _CRU = value; }
         public DateTime? CRD { get => _CRD; set => _CRD = value; }
         public int? LMU { get => _LMU; set => _LMU = value; }
@@ -139,7 +146,7 @@ namespace KontrollDoc.Models
                 dokumentum.AllapotAz = (int)row["AllapotAz"];
                 dokumentum.ProjecktHivatkozasAz = (int)row["ProjektHivatkozasAz"];
                 dokumentum.Megjegyzes = (string)row["Megjegyzes"];
-                dokumentum.Telefonszam = (string)row["Telefonszam"];
+                dokumentum.Telefonszam = row["Telefonszam"] as string ?? null;
                 if (row["CRU"] != DBNull.Value) { dokumentum.CRU = (int)row["CRU"]; } else { dokumentum.CRU = null; }
                 if (row["CRD"] != DBNull.Value) { dokumentum.CRD = (DateTime)row["CRD"]; } else { dokumentum.CRD = null; }
                 if (row["LMU"] != DBNull.Value) { dokumentum.LMU = (int)row["LMU"]; } else { dokumentum.LMU = null; }

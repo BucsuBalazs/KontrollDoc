@@ -14,9 +14,20 @@
             <Frame Padding="20,20,20,20" BackgroundColor="White" WidthRequest="250" HorizontalOptions="Center" VerticalOptions="Center" CornerRadius="10">
                 <StackLayout Orientation="Vertical" Spacing="5">
                     <Entry Placeholder="Felhasználónév" PlaceholderColor="LightGray" x:Name="user" TextColor="#7B68EE"/>
-                    <Entry Placeholder="Jelszó" PlaceholderColor="LightGray" IsPassword="True" x:Name="password" TextColor="#7B68EE"/>
-                    <Button Text="Belépés" BorderWidth="2"  BackgroundColor="#2196F3" TextColor="White" WidthRequest="100" HeightRequest="40" HorizontalOptions="Center" AutomationId="1" Clicked="OnNextPageButtonClicked" />
+                    <Entry TextChanged="password_TextChanged" Placeholder="Jelszó" PlaceholderColor="LightGray" IsPassword="True" x:Name="password" TextColor="#7B68EE"/>
                     <Label Text="valami félrement" x:Name="errorMessage" IsVisible="false" TextColor="#7B68EE"/>
+
+                    <Picker 
+                        SelectedIndexChanged="adatbazis_SelectedIndexChanged"
+                        x:Name="adatbazis_Picker"
+                        Scale="1" 
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"
+                        IsVisible="false"/>
+                    <Button IsVisible="false" x:Name="Belep" Text="Belépés" BorderWidth="2"  BackgroundColor="#2196F3" TextColor="White" WidthRequest="100" HeightRequest="40" HorizontalOptions="Center" AutomationId="1" Clicked="OnNextPageButtonClicked" />
 
                 </StackLayout>
 

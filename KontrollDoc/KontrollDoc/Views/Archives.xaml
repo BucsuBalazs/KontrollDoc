@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KontrollDoc.Views.Archives"
+             BackgroundColor="#7B68EE"
+             Title="Irattár">
+
+    <NavigationPage.TitleView>
+        <Grid HorizontalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+        </Grid>
+    </NavigationPage.TitleView>
+
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
+            <Label Text="Mit keresel?" HorizontalOptions="Center" VerticalOptions="Start" HorizontalTextAlignment="Center" FontSize="36" TextColor="White"/>
+            <Frame Padding="20,20,20,20" BackgroundColor="White" WidthRequest="250" HorizontalOptions="Center" CornerRadius="10" Margin="10,20,10,10">
+                <StackLayout Orientation="Vertical" Spacing="16">
+                    <Button Text="Dokumentumot" CornerRadius="20" TextColor="White" BackgroundColor="#7B68EE" Clicked="GetDoc_Clicked"/>
+                    <Button Text="Irattárat" CornerRadius="20" TextColor="White" BackgroundColor="#7B68EE" Clicked="GetRow_Clicked"/>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

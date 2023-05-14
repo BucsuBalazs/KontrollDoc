@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,8 +13,15 @@ namespace KontrollDoc
         {
             InitializeComponent();
 
+
             MainPage = new NavigationPage(new Views.LoginPage());
 
+        }
+
+        public async Task NavigateToNativePageAsync()
+        {
+            var nativeNavigationService = DependencyService.Get<INativeNavigationService>();
+            await nativeNavigationService.NavigateToScanPageAsync();
         }
 
         protected override void OnStart()

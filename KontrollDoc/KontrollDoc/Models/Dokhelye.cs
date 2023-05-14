@@ -1,60 +1,76 @@
-﻿using System;
+﻿using FIT_Common;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace KontrollDoc.Models
 {
     internal class Dokhelye
     {
-        private int _Azonosito;
-        private int _DokAz;
-        private string _Irattar1;
-        private string _Irattar2;
-        private string _Irattar3;
-        private int _TovabbitvaAz;
-        private string _Egyeb;
-        private int _CRU;
-        private DateTime _CRD;
-        private int _LMU;
-        private DateTime _LMD;
-
-        public Dokhelye(
-            int azon,
-            int dokaz,
-            string irattar1,
-            string irattar2,
-            string irattar3,
-            int tovabbitvaaz,
-            string egyeb,
-            int cru,
-            DateTime crd,
-            int lmu,
-            DateTime lmd
-            ) 
-        {
-            this._Azonosito = azon;
-            this._DokAz = dokaz;
-            this._Irattar1 = irattar1;
-            this._Irattar2 = irattar2;
-            this._Irattar3 = irattar3;
-            this._TovabbitvaAz = tovabbitvaaz;
-            this._Egyeb = egyeb;
-            this._CRU = cru;
-            this._CRD = crd;
-            this._LMU = lmu;
-            this._LMD = lmd;
-        }
+        public Dokhelye() { }
 
         public int Azonosito { get; set; }
         public int Dokaz { get; set;}
-        public string Irattar1 { get; set;}
-        public string Irattar2 { get; set; }
-        public string Irattar3 { get; set; }
-        public int TovabbitvaAz { get; set;}
-        public string Egyeb { get; set;}
+
+        private string _irattar1 = null;
+        public string Irattar1
+        {
+            get { return _irattar1; }
+            set { _irattar1 = value; }
+        }
+
+        private string _irattar2 = null;
+        public string Irattar2
+        {
+            get { return _irattar2; }
+            set { _irattar2 = value; }
+        }
+        private string _irattar3 = null;
+        public string Irattar3
+        {
+            get { return _irattar3; }
+            set { _irattar3 = value; }
+        }
+        public int? TovabbitvaAz { get; set;}
+
+        private string _egyeb = null;
+        public string Egyeb
+        {
+            get { return _egyeb; }
+            set { _egyeb = value; }
+        }
         public int CRU { get; set; }
         public DateTime CRD { get; set; }
         public int LMU { get; set; }
         public DateTime LMD { get; set; }
+
+        public List<Dokhelye> GetDocHely(DB dbc)
+        {
+            List<SqlParameter> empty = new List<SqlParameter>();
+
+            List<Dokhelye> doks = new List<Dokhelye>();
+
+            System.Data.DataTable dataTable = dbc.GetTableFromSPAB("DokIrattarList", empty);
+            foreach (System.Data.DataRow dr in dataTable.Rows)
+            {
+                Dokhelye dokhelye = new Dokhelye();
+                dokhelye.Azonosito = (int)dr["Azonosito"];
+                dokhelye.Dokaz = (int)dr["DokAZ"];
+                dokhelye.Irattar1 = dr["Irattar1"] as string ?? null;
+                dokhelye.Irattar2 = dr["Irattar2"] as string ?? null;
+                dokhelye.Irattar3 = dr["Irattar3"] as string ?? null;
+                dokhelye.TovabbitvaAz = dr["TovabbitvaAz"] is DBNull ? null : (int?)dr["TovabbitvaAz"];
+                dokhelye.Egyeb = dr["Egyeb"] as string ?? null;
+                dokhelye.CRU = (int)dr["CRU"];
+                dokhelye.CRD = (DateTime)dr["CRD"];
+                dokhelye.LMU = (int)dr["LMU"];
+                dokhelye.LMD = (DateTime)dr["LMD"];
+
+                doks.Add(dokhelye);
+            }
+
+            return doks;
+        }
     }
 }

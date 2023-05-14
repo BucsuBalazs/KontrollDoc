@@ -25,7 +25,7 @@
     <ContentPage.Content>
         <ScrollView Margin="10,10,10,10">
             <Frame BackgroundColor="#C0E8D5" Margin="0,0,0,0" Padding="0,0,0,0" HorizontalOptions="Fill" VerticalOptions="Center" CornerRadius="10">
-                <Grid BackgroundColor="#C0E8D5" HorizontalOptions="Fill" VerticalOptions="Center" Margin="4,4,4,4" Padding="2,2,2,2" ColumnSpacing="2" RowSpacing="2">
+                <Grid BackgroundColor="#C0E8D5" HorizontalOptions="Fill" VerticalOptions="Center" Margin="4,4,4,4" Padding="2,2,2,2" ColumnSpacing="2" RowSpacing="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="2.0*" />
@@ -122,17 +122,17 @@
                     <BoxView Grid.Row="3"
                              Grid.Column="1"/>
 
-                    <Picker 
-                            SelectedIndexChanged="Partner_Kod_Picker_SelectedIndexChanged"
-                            x:Name="Partner_Kod_Picker"
-                            Grid.Row="3"
-                            Grid.Column="1"
-                            Scale="1" 
-                            WidthRequest="300" 
-                            BackgroundColor="White"
-                            TextColor="Black"
-                            HorizontalOptions="Fill"
-                            VerticalOptions="Center"/>
+                    <Entry 
+                        TextChanged="Partner_Kod_Entry_TextChanged"
+                        x:Name="Partner_Kod_Entry"
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Scale="1" 
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
 
                     <BoxView Grid.Row="4"
                              Grid.Column="0"/>
@@ -477,34 +477,34 @@
                         </ListView>
                     </StackLayout>
 
-                    <BoxView Grid.Row="17"
+                    <BoxView Grid.Row="18"
                              Grid.Column="0"/>
 
-                    <Label  Grid.Row="17"
+                    <Label  Grid.Row="18"
                             Grid.Column="0" 
                             Text="Mellékletek:" 
                             TextColor="Black"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
 
-                    <BoxView Grid.Row="17"
+                    <BoxView Grid.Row="18"
                              Grid.Column="1"/>
 
-                    <StackLayout Grid.Row="17" Grid.Column="1" Orientation="Horizontal" Spacing="0" HorizontalOptions="Center" VerticalOptions="Center" Padding="0">
+                    <StackLayout Grid.Row="18" Grid.Column="1" Orientation="Horizontal" Spacing="0" HorizontalOptions="Center" VerticalOptions="Center" Padding="0">
                         <Button Text="hozzáadás" Scale="0.8" Clicked="Hozzaadas_Clicked"/>
                     </StackLayout>
 
 
 
-                    <BoxView Grid.Row="18"
+                    <BoxView Grid.Row="19"
                              Grid.Column="0"
                              Grid.ColumnSpan="2"/>
 
-                    <StackLayout Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Spacing="0" HorizontalOptions="Center" VerticalOptions="Center" Padding="0">
+                    <StackLayout Grid.Row="19" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Spacing="0" HorizontalOptions="Center" VerticalOptions="Center" Padding="0">
                         <ListView x:Name="Mellékletek_ListView" HeightRequest="50" WidthRequest="220" >
                             <ListView.Header>
                                 <Grid Padding="0,0,0,0" Margin="0,0,0,0">
-                                    
+
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
@@ -522,16 +522,30 @@
                                                     <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
-                                                <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black" Grid.Column="0" Scale="0.8" Text="{Binding Sorszam}" />
-                                                <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black" Grid.Column="1" Scale="0.8"  Text="{Binding Targy}" />
+                                                <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black" Grid.Column="0"  Text="{Binding Sorszam}" />
+                                                <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black" Grid.Column="1"   Text="{Binding Targy}" />
                                             </Grid>
                                         </Frame>
                                     </ViewCell>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                        
+
                     </StackLayout>
+                    <Grid Grid.Row="17" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Fill" Padding="0,0,0,0" Margin="0,0,0,0"  ColumnSpacing="0" RowSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Entry x:Name="Irattar1_Entry" TextColor="Black" WidthRequest="300" Grid.Row="0" Grid.Column="0" PlaceholderColor="Gray" Placeholder="Sor" HorizontalOptions="Center" VerticalOptions="Center" />
+                        <Entry x:Name="Irattar2_Entry" TextColor="Black" WidthRequest="300" Grid.Row="0" Grid.Column="1" PlaceholderColor="Gray" Placeholder="Polc" HorizontalOptions="Center" VerticalOptions="Center" />
+                        <Entry x:Name="Irattar3_Entry" TextColor="Black" WidthRequest="300" Grid.Row="0" Grid.Column="2" PlaceholderColor="Gray" Placeholder="szám" HorizontalOptions="Center" VerticalOptions="Center" />
+                        <Entry x:Name="Egyeb_Entry" TextColor="Black" WidthRequest="300" Grid.Row="0" Grid.Column="3" PlaceholderColor="Gray" Placeholder="Egyéb" HorizontalOptions="Center" VerticalOptions="Center" />
+                        <Button x:Name="Hely_Button" Text="Áthelyez" TextColor="Black" Font="10" Grid.Row="0" Grid.Column="4" HorizontalOptions="Center" VerticalOptions="Center" Clicked="Hely_Button_Clicked"/>
+                    </Grid>
                 </Grid>
             </Frame>
         </ScrollView>

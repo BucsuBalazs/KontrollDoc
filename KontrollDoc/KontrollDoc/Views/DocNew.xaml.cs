@@ -22,6 +22,7 @@ namespace KontrollDoc.Views
         DB dbc;
         List<FileResult> csatolmanyok_list = new List<FileResult>();
         List<Partner> partnerek;
+        List<Partner> sortedPartnerek;
         KapcssDokTorzs doktorzs;
         int Fodokumentum_Sorszama = 0;
 
@@ -61,16 +62,14 @@ namespace KontrollDoc.Views
             Partner partner = new Partner(dbc);
 
             partnerek = partner.GetPartnerLista();
-
-            List<string> partnerkodok = partnerek.Select(p => p.kod).ToList();
-            List<string> partnernevek = partnerek.Select(p => p.Nev).ToList();
+            sortedPartnerek = partnerek.OrderBy(p => p.Nev).ToList();
 
             Tipus_Picker.ItemsSource = tipusok;
             Tema_Picker.ItemsSource = temak;
             Hordozo_Picker.ItemsSource = hordozok;
             Project_Picker.ItemsSource = hivatkozasok;
-            Partner_Kod_Picker.ItemsSource = partnerkodok;
-            Partner_Nev_Picker.ItemsSource = partnernevek;
+            Partner_Nev_Picker.ItemsSource = sortedPartnerek;
+            Partner_Nev_Picker.ItemDisplayBinding = new Binding("Nev");
         }
 
         protected override void OnDisappearing()
@@ -124,14 +123,25 @@ namespace KontrollDoc.Views
             }
         }
 
-        private void Partner_Kod_Picker_SelectedIndexChanged(object sender, EventArgs e)
+        private void Partner_Kod_Entry_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Partner_Nev_Picker.SelectedIndex = Partner_Kod_Picker.SelectedIndex;
+            var keres = sortedPartnerek.Find(p => p.kod == Partner_Kod_Entry.Text);
+            if (keres != null)
+            {
+                Partner_Nev_Picker.SelectedItem = keres;
+            }
         }
 
         private void Partner_Nev_Picker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Partner_Kod_Picker.SelectedIndex = Partner_Nev_Picker.SelectedIndex;
+            if (Partner_Nev_Picker.SelectedItem != null)
+            {
+                Partner talalt = (Partner)Partner_Nev_Picker.SelectedItem;
+                if (talalt != null)
+                {
+                    Partner_Kod_Entry.Text = talalt.kod.ToString();
+                }
+            }
         }
 
 
@@ -194,8 +204,8 @@ namespace KontrollDoc.Views
 
                 SqlParameter PartnerAz = new SqlParameter();
                 PartnerAz.ParameterName = "@PartnerAz";
-                var Partner = this.partnerek.Find(d => d.kod == Partner_Kod_Picker.SelectedItem.ToString());
-                PartnerAz.Value = Partner.Azonosito;
+                //var Partner = this.partnerek.Find(d => d.kod == Partner_Kod_Picker.SelectedItem.ToString());
+                PartnerAz.Value = Partner_Kod_Entry.Text;
                 sqlParameters.Add(PartnerAz);
 
                 SqlParameter TemaAz = new SqlParameter();
@@ -319,6 +329,37 @@ namespace KontrollDoc.Views
 
                     dbc.ExecuteSPAB("KapcsDokHivFrissit", KapcsDokHivFrissitparams);
                 }
+                
+                List<SqlParameter> DokHelyeModositparams = new List<SqlParameter>();
+
+                SqlParameter DokAzparam2 = new SqlParameter();
+                DokAzparam2.ParameterName = "@DokAz";
+                DokAzparam2.Value = DokAz;
+                DokHelyeModositparams.Add(DokAzparam2);
+
+                SqlParameter Irattar1 = new SqlParameter();
+                Irattar1.ParameterName = "@Irattar1";
+                if (string.IsNullOrEmpty(Irattar1_Entry.Text)) { Irattar1.Value = "";  } else { Irattar1.Value = Irattar1_Entry.Text; }
+                DokHelyeModositparams.Add(Irattar1);
+
+                SqlParameter Irattar2 = new SqlParameter();
+                Irattar2.ParameterName = "@Irattar2";
+                if (string.IsNullOrEmpty(Irattar2_Entry.Text)) { Irattar2.Value = ""; } else { Irattar2.Value = Irattar2_Entry.Text; }
+                DokHelyeModositparams.Add(Irattar2);
+
+                SqlParameter Irattar3 = new SqlParameter();
+                Irattar3.ParameterName = "@Irattar3";
+                if (string.IsNullOrEmpty(Irattar3_Entry.Text)) { Irattar3.Value = ""; } else { Irattar3.Value = Irattar3_Entry.Text; }
+                DokHelyeModositparams.Add(Irattar3);
+
+                SqlParameter Egyeb = new SqlParameter();
+                Egyeb.ParameterName = "@Egyeb";
+                if (string.IsNullOrEmpty(Egyeb_Entry.Text)) { Egyeb.Value = ""; } else { Egyeb.Value = Egyeb_Entry.Text; }
+                DokHelyeModositparams.Add(Egyeb);
+
+                dbc.ExecuteSPAB("DokHelyeModosit", DokHelyeModositparams);
+
+
                 await Navigation.PopAsync();
             }
             catch(Exception ex) { await DisplayAlert("Hiba", ex.Message, "ok"); }

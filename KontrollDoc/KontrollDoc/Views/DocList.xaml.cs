@@ -22,6 +22,7 @@ namespace KontrollDoc.Views
 
         KapcssDokTorzs doktorzs;
         List<Partner> partnerek;
+        List<Partner> sortedPartnerek;
 
         List<Dokumentum> dokumentumok;
 
@@ -64,12 +65,14 @@ namespace KontrollDoc.Views
             partnernevek.Add("");
             partnernevek.AddRange(nevek);
 
+            sortedPartnerek = partnerek.OrderBy(p => p.Nev).ToList();
+
             Tipus_Picker.ItemsSource = tipusok;
             Tema_Picker.ItemsSource = temak;
             Hordozo_Picker.ItemsSource = hordozok;
             Project_Picker.ItemsSource = hivatkozasok;
-            Partner_Kod_Picker.ItemsSource = partnerkodok;
-            Partner_Nev_Picker.ItemsSource = partnernevek;
+            Partner_Nev_Picker.ItemsSource = sortedPartnerek;
+            Partner_Nev_Picker.ItemDisplayBinding = new Binding("Nev");
 
             Dokumentum docs = new Dokumentum();
 
@@ -103,6 +106,7 @@ namespace KontrollDoc.Views
         void Filter()
         {
             List<Dokumentum> szurt = dokumentumok;
+
             if (Tipus_Picker.SelectedItem != null && !string.IsNullOrEmpty(Tipus_Picker.SelectedItem.ToString())){
                 var Tipus = this.doktorzs.dokTorzs.Find(torzs => torzs.Megnevezes == Tipus_Picker.SelectedItem.ToString());
                 szurt = szurt.FindAll(dok => dok.TipusAz == Tipus.Azonosito);
@@ -115,14 +119,19 @@ namespace KontrollDoc.Views
             {
                 szurt = szurt.FindAll(dok => dok.Inaktiv == true);
             }
-            if (Partner_Nev_Picker.SelectedItem != null &&
-                Partner_Kod_Picker.SelectedItem != null &&
-                !string.IsNullOrEmpty(Partner_Nev_Picker.SelectedItem.ToString()) && 
-                !string.IsNullOrEmpty(Partner_Kod_Picker.SelectedItem.ToString())) 
+            if (!string.IsNullOrEmpty(Partner_Kod_Entry.Text))
             {
-                var Partner = this.partnerek.Find(d => d.kod == Partner_Kod_Picker.SelectedItem.ToString());
-                szurt = szurt.FindAll(dok => dok.PartnerAz == Partner.Azonosito);
+                var Partner = this.partnerek.Find(d => d.kod == Partner_Kod_Entry.Text);
+                if (Partner != null) 
+                {
+                    szurt = szurt.FindAll(dok => dok.PartnerAz == Partner.Azonosito);
+                }
             }
+            /*if (Partner_Nev_Picker.SelectedItem != null && !string.IsNullOrEmpty(Partner_Nev_Picker.SelectedItem.ToString())) 
+            {
+                //var Partner = this.partnerek.Find(d => d.kod == Partner_Nev_Picker.SelectedItem);
+                szurt = szurt.FindAll(dok => dok == Partner_Nev_Picker.SelectedItem);
+            }*/
             if (!string.IsNullOrEmpty(Sorszam_Entry.Text)) 
             {
                 szurt = szurt.FindAll(dok => dok.Sorszam == int.Parse(Sorszam_Entry.Text));
@@ -189,15 +198,28 @@ namespace KontrollDoc.Views
             Filter();
         }
 
-        private void Partner_Kod_Picker_SelectedIndexChanged(object sender, EventArgs e)
+        private void Partner_Kod_Entry_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Partner_Nev_Picker.SelectedIndex = Partner_Kod_Picker.SelectedIndex;
+
+            var keres = sortedPartnerek.Find(p => p.kod == Partner_Kod_Entry.Text);
+            if (keres != null)
+            {
+                Partner_Nev_Picker.SelectedItem = keres;
+            }
             Filter();
         }
 
         private void Partner_Nev_Picker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Partner_Kod_Picker.SelectedIndex = Partner_Nev_Picker.SelectedIndex;
+            if (Partner_Nev_Picker.SelectedItem != null)
+            {
+                Partner talalt = (Partner)Partner_Nev_Picker.SelectedItem;
+                if (talalt != null)
+                {
+                    Partner_Kod_Entry.Text = talalt.kod.ToString();
+                }
+                
+            }
             Filter();
         }
 

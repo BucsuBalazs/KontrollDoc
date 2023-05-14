@@ -12,22 +12,22 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
     <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
-    <PackageCertificateThumbprint>F8724F36CA9FAB0EB73CA5182004C10A6BAA0309</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>5B7E59CD163CD6E2C9B5C80270EFD60469776C50</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
-    <AppInstallerUri>C:\Users\bucsu\Desktop\szakdolgozat\lead</AppInstallerUri>
+    <AppInstallerUri>C:\Users\bucsu\Desktop\szakdolgozat\repos\KontrollDoc\Install</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -102,6 +102,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NativeNavigationService.cs" />
+    <Compile Include="ScanPage.xaml.cs">
+      <DependentUpon>ScanPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -147,6 +151,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ScanPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

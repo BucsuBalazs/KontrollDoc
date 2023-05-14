@@ -1,0 +1,14 @@
+1. jobb klikk a telepítőre.
+2. tulajdonságok > digitális aláírások
+3. kiválasztod az Aláíráslistából Búcsú Balázs Aláírónev nevű aláírást.
+4. részletek
+5. tanusítvány megtekintése
+6. tanusítvány telepítése...
+7. Tárolás helyénél kiválasztod hogy Helyi számítógép
+8. Tovább
+9. kiválasztod hogy "Minden Tanusítvány tárolása ebben a tárolóban"
+10. Tallózás > Válaszd ki a Megbízható személyek mappát.
+11. Tovább
+12. befejezés
+13. le Ok -zol minden ameddig vissza nem érsz a telepítőhöz.
+14. Futtatod a telepítőt.

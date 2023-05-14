@@ -117,17 +117,17 @@
                     <BoxView Grid.Row="3"
                              Grid.Column="1"/>
 
-                    <Picker 
-                            SelectedIndexChanged="Partner_Kod_Picker_SelectedIndexChanged"
-                            x:Name="Partner_Kod_Picker"
-                            Grid.Row="3"
-                            Grid.Column="1"
-                            Scale="1" 
-                            WidthRequest="300" 
-                            BackgroundColor="White"
-                            TextColor="Black"
-                            HorizontalOptions="Fill"
-                            VerticalOptions="Center"/>
+                    <Entry 
+                        TextChanged="Partner_Kod_Entry_TextChanged"
+                        x:Name="Partner_Kod_Entry"
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Scale="1" 
+                        WidthRequest="300" 
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"/>
 
                     <BoxView Grid.Row="4"
                              Grid.Column="0"/>
@@ -476,6 +476,19 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </StackLayout>
+                    <Grid Grid.Row="17" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Fill" Padding="0,0,0,0" Margin="0,0,0,0"  ColumnSpacing="0" RowSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Entry x:Name="Irattar1_Entry" TextColor="Black" WidthRequest="300" Grid.Row="0" Grid.Column="0" PlaceholderColor="Gray" Placeholder="Sor" HorizontalOptions="Center" VerticalOptions="Center" />
+                        <Entry x:Name="Irattar2_Entry" TextColor="Black" WidthRequest="300" Grid.Row="0" Grid.Column="1" PlaceholderColor="Gray" Placeholder="Polc" HorizontalOptions="Center" VerticalOptions="Center" />
+                        <Entry x:Name="Irattar3_Entry" TextColor="Black" WidthRequest="300" Grid.Row="0" Grid.Column="2" PlaceholderColor="Gray" Placeholder="szám" HorizontalOptions="Center" VerticalOptions="Center" />
+                        <Entry x:Name="Egyeb_Entry" TextColor="Black" WidthRequest="300" Grid.Row="0" Grid.Column="3" PlaceholderColor="Gray" Placeholder="Egyéb" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Grid>
+
                 </Grid>
             </Frame>
         </ScrollView>

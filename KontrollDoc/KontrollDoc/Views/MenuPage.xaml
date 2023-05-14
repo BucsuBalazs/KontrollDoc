@@ -5,16 +5,27 @@
              BackgroundColor="#7B68EE"
              Title="Főmenü">
 
+    <NavigationPage.TitleView>
+        <Grid HorizontalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Text="Kijelentkezés" TextColor="White" BackgroundColor="#2196F3" Grid.Column="1" Clicked="Logout_Clicked"/>
+        </Grid>
+    </NavigationPage.TitleView>
+
     <ContentPage.Content>
 
         <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
             <Label Text="Üdvözöljük User!" HorizontalOptions="Center" VerticalOptions="Start" HorizontalTextAlignment="Center" FontSize="36" TextColor="White" x:Name="welcomeText"/>
             <Frame Padding="20,20,20,20" BackgroundColor="White" WidthRequest="250" HorizontalOptions="Center" CornerRadius="10" Margin="10,20,10,10">
                 <StackLayout Orientation="Vertical" Spacing="16">
-                    <Button Text="Dokumentumok" CornerRadius="20" TextColor="White" BackgroundColor="#7B68EE" Clicked="Docs_Clicked"/>
-                    <Button Text="CégKontroll partnertörzs" CornerRadius="20" TextColor="White" BackgroundColor="#7B68EE"/>
-                    <Button Text="Hozzáférési jogosultságok" CornerRadius="20" TextColor="White" BackgroundColor="#7B68EE"/>
-                    <Button Text="Szkennelés" CornerRadius="20" TextColor="White" BackgroundColor="#7B68EE"/>
+                    <Button x:Name="Dok" Text="Dokumentumok" CornerRadius="20" TextColor="White" BackgroundColor="#7B68EE" Clicked="Docs_Clicked"/>
+                    <Button x:Name="Part" Text="Partnerek" CornerRadius="20" TextColor="White" BackgroundColor="#7B68EE" Clicked="Partner_Body_Clicked"/>
+                    <Button x:Name="Jog" Text="Hozzáférés" CornerRadius="20" TextColor="White" BackgroundColor="#7B68EE" Clicked="Doc_Body_Clicked"/>
+                    <Button x:Name="Irat" Text="Irattár" CornerRadius="20" TextColor="White" BackgroundColor="#7B68EE" Clicked="Archives_Clicked"/>
                 </StackLayout>
             </Frame>
             <Label Text="Cégkontroll rendszer leírás" TextColor="White" FontAttributes="Italic" HorizontalOptions="Center" VerticalOptions="Center">

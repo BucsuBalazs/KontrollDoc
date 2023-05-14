@@ -70,6 +70,9 @@ namespace KontrollDoc.UWP
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
+
+                //rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                //rootFrame.Navigate(typeof(ScanPage));
             }
 
             if (rootFrame.Content == null)

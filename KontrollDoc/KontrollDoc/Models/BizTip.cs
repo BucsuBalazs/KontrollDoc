@@ -6,13 +6,28 @@ using System.Text;
 
 namespace KontrollDoc.Models
 {
+    /// <summary>
+    /// BizTip táblát reprezentáló osztály
+    /// </summary>
     internal class BizTip
     {
-
+        /// <summary>
+        /// Azonosito getter, setter
+        /// </summary>
         public int Azonosito { get; set; }
+        /// <summary>
+        /// Megnevezes getter, setter
+        /// </summary>
         public string Megnevezes { get; set; }
-
+        /// <summary>
+        /// Inicializálja az <see cref="BizTip"/> osztály új példányát.
+        /// </summary>
         public BizTip() { }
+        /// <summary>
+        /// Lekéri az BizTip példányok listáját az adatbázisból.
+        /// </summary>
+        /// <param name="dbc">Az adatbázis contextus</param>
+        /// <returns>Az BizTip példányok listája.</returns>
 
         public List<BizTip> GetBizTip(DB dbc) 
         {

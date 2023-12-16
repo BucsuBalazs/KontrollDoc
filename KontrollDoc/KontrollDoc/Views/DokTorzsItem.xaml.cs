@@ -15,13 +15,30 @@ using KontrollDoc.Models;
 namespace KontrollDoc.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
+    /// <summary>
+    /// Egy ContentPage egy adott amely dokumentum törzs típussal való műveletekhez biztosít eseményeket.
+    /// </summary>
 	public partial class DokTorzsItem : ContentPage
 	{
-		DB dbc;
-		DokTorzs Tapped = null;
+        /// <summary>
+        /// Az adatbázis környezet.
+        /// </summary>
+        DB dbc;
+        /// <summary>
+        /// A törzs típus ami ki lett választva.
+        /// </summary>
+        DokTorzs Tapped = null;
+        /// <summary>
+        /// A törzs típus ami ki lett választva annak a neve.
+        /// </summary>
 		string DokTipus;
 
-		public DokTorzsItem (DB dbc,string DokTipus)
+        /// <summary>
+        /// Inicializálja a <see cref="DokTorzsItem"/> osztály új példányát.
+        /// </summary>
+        /// <param name="dbc">Az adatbázis környezet.</param>
+        /// <param name="DokTipus">A doktorzs típus neve</param>
+        public DokTorzsItem (DB dbc,string DokTipus)
 		{
 			InitializeComponent ();
 
@@ -29,6 +46,12 @@ namespace KontrollDoc.Views
 			this.DokTipus= DokTipus;
 		}
 
+        /// <summary>
+        /// Inicializálja a <see cref="DokTorzsItem"/> osztály új példányát egy megadott doktorzs típus elemmel.
+        /// </summary>
+        /// <param name="dbc">Az adatbázis környezet.</param>
+        /// <param name="Tapped">A doktorzs típus ami ki lett választva.</param>
+        /// <param name="DokTipus">A doktorzs típus neve</param>
         public DokTorzsItem(DB dbc, DokTorzs Tapped, string DokTipus)
         {
             InitializeComponent();
@@ -41,7 +64,9 @@ namespace KontrollDoc.Views
 
 			Submit.Text = "Frissít";
         }
-
+        /// <summary>
+        /// Kezeli a Küldés gomb eseménykezelője.
+        /// </summary>
         private async void Submit_Clicked(object sender, EventArgs e)
         {
 			if (Tapped != null)
@@ -69,6 +94,7 @@ namespace KontrollDoc.Views
                 Inaktiv.Value = Hasznalat_Checkbox.IsChecked;
                 DokTorzsModosit.Add(Inaktiv);
 
+                // Kiválasztott doktorzs módosítása
                 dbc.ExecuteSPAB("DokTorzsModosit", DokTorzsModosit);
 
             }
@@ -100,6 +126,7 @@ namespace KontrollDoc.Views
                 Inaktiv2.Value = newDokTorzs.Inaktiv;
                 DokTorzsUj.Add(Inaktiv2);
 
+                // új doktorzs felvitele
                 dbc.ExecuteSPAB("DokTorzsUj", DokTorzsUj);
                 DokTorzsUj.Clear();
             }

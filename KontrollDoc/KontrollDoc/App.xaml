@@ -4,6 +4,7 @@
              x:Class="KontrollDoc.App">
     <Application.Resources>
 
+        <!--Címsor háttérszínének és betű színének a beállítása. -->
         <ResourceDictionary>
             <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="#2196F3" />

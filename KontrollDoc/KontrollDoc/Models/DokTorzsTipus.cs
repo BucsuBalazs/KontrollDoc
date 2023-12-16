@@ -6,21 +6,39 @@ using System.Text;
 
 namespace KontrollDoc.Models
 {
+    /// <summary>
+    /// DokTorzsTipus táblát reprezentáló osztály
+    /// </summary>
     public class DokTorzsTipus
     {
+        /// <summary>
+        /// Adatbázis kontextus.
+        /// </summary>
         DB dbc;
-        private int _Azonosito;         // 1
-        private string _Megnevezes;     // 2
-        private string _TipusNev;       // 3
-        private bool _Inaktiv;          // 4
-
-
+        private int _Azonosito;
+        private string _Megnevezes;
+        private string _TipusNev;
+        private bool _Inaktiv;
+        /// <summary>
+        /// Inicializálja a <see cref="DokTorzsTipus"/> osztály új példányát.
+        /// </summary>
         public DokTorzsTipus() { }
+        /// <summary>
+        /// Inicializálja a <see cref="DokTorzsTipus"/> osztály új példányát megadott adatbázis kontextussal.
+        /// </summary>
+        /// <param name="dbc">Az adatbázis környezet.</param>
         public DokTorzsTipus(DB dbc) 
         {
             this.dbc = dbc;
         }
 
+        /// <summary>
+        /// Inicializálja a <see cref="DokTorzsTipus"/> osztály új példányát megadott értékekkel.
+        /// </summary>
+        /// <param name="azon">Az azonosító.</param>
+        /// <param name="megnevezes">A Megnevezés</param>
+        /// <param name="tipusaz">A típus azonosító</param>
+        /// <param name="inaktiv">Az inaktív állapot.</param>
         public DokTorzsTipus(
             int azon,
             string megnevezes,
@@ -32,12 +50,27 @@ namespace KontrollDoc.Models
             this._TipusNev = tipusaz;
             this._Inaktiv = inaktiv;
         }
-
+        /// <summary>
+        /// Azonosito getter, setter
+        /// </summary>
         public int Azonosito { get; set; }
+        /// <summary>
+        /// Megnevezes getter, setter
+        /// </summary>
         public string Megnevezes { get; set; }
+        /// <summary>
+        /// TipusNev getter, setter
+        /// </summary>
         public string TipusNev { get; set; }
+        /// <summary>
+        /// Inaktiv getter, setter
+        /// </summary>
         public bool Inaktiv { get; set; }
 
+        /// <summary>
+        /// Lekéri a DokTorzsTipus példányok listáját az adatbázisból.
+        /// </summary>
+        /// <returns>A DokTorzsTipus példányok listája.</returns>
         public List<DokTorzsTipus> GetDokTorzsTipusTable()
         {
 

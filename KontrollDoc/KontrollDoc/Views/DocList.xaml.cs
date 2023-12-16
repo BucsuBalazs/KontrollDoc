@@ -15,17 +15,48 @@ using System.Collections;
 namespace KontrollDoc.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
+    /// <summary>
+    /// Egy TabbedPage amely megjeleníti és feltölti adatokkal a Listázás című ContentPage-t és a Szűrés című ContentPage-t.
+    /// </summary>
     public partial class DocList : TabbedPage
     {
+        /// <summary>
+        /// Az adatbázis környezet.
+        /// </summary>
         DB dbc;
+        /// <summary>
+        /// A kiválasztott dokumentum azonosítója.
+        /// </summary>
         int selectedItemAzonosito;
 
+        /// <summary>
+        /// A dokumentumok törzs adatai.
+        /// </summary>
         KapcssDokTorzs doktorzs;
+        /// <summary>
+        /// Lista a partnerekről.
+        /// </summary>
         List<Partner> partnerek;
+        /// <summary>
+        /// Partnerek sorba rendezett listája.
+        /// </summary>
         List<Partner> sortedPartnerek;
-
+        /// <summary>
+        /// A dokumentumok listája.
+        /// </summary>
         List<Dokumentum> dokumentumok;
+        /// <summary>
+        /// A dokumentumok listája.
+        /// </summary>
+        /// <summary>
+        /// Azt jelzi, hogy az értékváltozás programozottan aktiválódik-e.
+        /// </summary>
+        private bool isProgrammaticChange = false;
 
+        /// <summary>
+        /// Inicializálja a <see cref="DocList"/> osztály új példányát.
+        /// </summary>
+        /// <param name="dbc">Az adatbázis környezet.</param>
         public DocList(DB dbc)
         {
             InitializeComponent();
@@ -35,10 +66,32 @@ namespace KontrollDoc.Views
             this.partnerek = partner.GetPartnerLista();
         }
 
+        /// <summary>
+        /// Az oldal megjelenésekor hívják. Betölti a dokumentumokat.
+        /// </summary>
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
+            LoadData();
+        }
+
+        /// <summary>
+        /// Betölti az adatokat a Listázás című ContentPage-be és a Szűrés című ContentPage-be
+        /// </summary>
+        private void LoadData()
+        {
+            // szűrök beállítása
+            Iktato_Entry.Text = null;
+            Partner_Kod_Entry.Text = null;
+            Sorszam_Entry.Text = null;
+            Targy_Entry.Text = null;
+            Telefon_Entry.Text = null;
+            Megjegyzes_Entry.Text = null;
+            Hasznalt_CheckBox.IsChecked = false;
+            Felvetel_Checkbox.IsChecked = false;
+            Hatarido_Checkbox.IsChecked = false;
+            // A szűrő pickerekbe való listák beállítása
             List<string> tipusok = new List<string>();
             tipusok.Add("");
             tipusok.AddRange(this.doktorzs.GetDokTorzs("Tipus"));
@@ -51,7 +104,7 @@ namespace KontrollDoc.Views
             hordozok.Add("");
             hordozok.AddRange(this.doktorzs.GetDokTorzs("Hordozo"));
 
-            List<string> hivatkozasok = new List<string>(); 
+            List<string> hivatkozasok = new List<string>();
             hivatkozasok.Add("");
             hivatkozasok.AddRange(this.doktorzs.GetDokTorzs("Projekt"));
 
@@ -65,48 +118,62 @@ namespace KontrollDoc.Views
             partnernevek.Add("");
             partnernevek.AddRange(nevek);
 
-            sortedPartnerek = partnerek.OrderBy(p => p.Nev).ToList();
+            //sortedPartnerek = partnerek.OrderBy(p => p.Nev).ToList();
 
+            // A pickerekbe való listák betöltése a pickerekbe
             Tipus_Picker.ItemsSource = tipusok;
             Tema_Picker.ItemsSource = temak;
             Hordozo_Picker.ItemsSource = hordozok;
             Project_Picker.ItemsSource = hivatkozasok;
-            Partner_Nev_Picker.ItemsSource = sortedPartnerek;
+            Partner_Nev_Picker.ItemsSource = partnerek;
             Partner_Nev_Picker.ItemDisplayBinding = new Binding("Nev");
 
+            // Dokumentumok betöltése
             Dokumentum docs = new Dokumentum();
 
             dokumentumok = docs.GetDokumentumok(dbc);
 
+            // documentumok megjelenítése
             DocListView.ItemsSource = dokumentumok;
             Filter();
             int itemCount = ((IList)DocListView.ItemsSource).Count;
-            countLabel.Text = "összesen: "+itemCount;
-        }
+            countLabel.Text = "összesen: " + itemCount;
 
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
         }
-
+        /// <summary>
+        /// Kezeli az Uj gomb eseményét.
+        /// </summary>
         async private void Uj_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new Views.DocNew(dbc));
         }
-
+        /// <summary>
+        /// Kezeli a Újratölt gomb eseményét.
+        /// </summary>
+        private void Refresh_Clicked(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+        /// <summary>
+        /// Kezeli a DocListView ItemTapped eseményét.
+        /// </summary>
         async private void DocListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            //Tipus_Picker.sel
-
+            // kiválasztott elem azonosítójának beállítása.
             Dokumentum obj = (Dokumentum)e.Item;
             selectedItemAzonosito = obj.Azonosito;
+            // navigálás a DocDetails lapra.
             await Navigation.PushAsync(new Views.DocDetails(dbc, selectedItemAzonosito));
         }
 
+        /// <summary>
+        /// Szűri a dokumentumokat a kiválasztott kritériumok alapján.
+        /// </summary>
         void Filter()
         {
+            // Új lista szűrésre
             List<Dokumentum> szurt = dokumentumok;
-
+            // dokumentumok szűrése a megfelelő kritériumok mentén és a szűrt listába helyezése.
             if (Tipus_Picker.SelectedItem != null && !string.IsNullOrEmpty(Tipus_Picker.SelectedItem.ToString())){
                 var Tipus = this.doktorzs.dokTorzs.Find(torzs => torzs.Megnevezes == Tipus_Picker.SelectedItem.ToString());
                 szurt = szurt.FindAll(dok => dok.TipusAz == Tipus.Azonosito);
@@ -121,17 +188,12 @@ namespace KontrollDoc.Views
             }
             if (!string.IsNullOrEmpty(Partner_Kod_Entry.Text))
             {
-                var Partner = this.partnerek.Find(d => d.kod == Partner_Kod_Entry.Text);
+                var Partner = this.partnerek.Find(p => p.kod == Partner_Kod_Entry.Text.ToString());
                 if (Partner != null) 
                 {
                     szurt = szurt.FindAll(dok => dok.PartnerAz == Partner.Azonosito);
                 }
             }
-            /*if (Partner_Nev_Picker.SelectedItem != null && !string.IsNullOrEmpty(Partner_Nev_Picker.SelectedItem.ToString())) 
-            {
-                //var Partner = this.partnerek.Find(d => d.kod == Partner_Nev_Picker.SelectedItem);
-                szurt = szurt.FindAll(dok => dok == Partner_Nev_Picker.SelectedItem);
-            }*/
             if (!string.IsNullOrEmpty(Sorszam_Entry.Text)) 
             {
                 szurt = szurt.FindAll(dok => dok.Sorszam == int.Parse(Sorszam_Entry.Text));
@@ -177,78 +239,108 @@ namespace KontrollDoc.Views
             {
                 szurt = szurt.FindAll(dok => dok.Megjegyzes == Megjegyzes_Entry.Text);
             }
-
+            // szűrt lista megjelenítése
             DocListView.ItemsSource = szurt;
             int itemCount = ((IList)DocListView.ItemsSource)?.Count ?? 0;
             countLabel.Text = "összesen: " + itemCount;
         }
 
+        /// <summary>
+        /// Kezeli a Tipus_Picker SelectedIndexChanged eseményét.
+        /// </summary>
         private void Tipus_Picker_SelectedIndexChanged(object sender, EventArgs e)
         {
             Filter();
         }
 
+        /// <summary>
+        /// Kezeli a Iktato_Entry TextChanged eseményét.
+        /// </summary>
         private void Iktato_Entry_TextChanged(object sender, TextChangedEventArgs e)
         {
             Filter();
         }
-
+        /// <summary>
+        /// Kezeli a Hasznalt_CheckBox CheckedChanged eseményét.
+        /// </summary>
         private void Hasznalt_CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
             Filter();
         }
-
+        /// <summary>
+        /// Kezeli a Partner_Nev_Entry TextChanged eseményét.
+        /// </summary>
         private void Partner_Kod_Entry_TextChanged(object sender, TextChangedEventArgs e)
         {
-
-            var keres = sortedPartnerek.Find(p => p.kod == Partner_Kod_Entry.Text);
+            if (isProgrammaticChange) return;
+            var keres = partnerek.Find(p => p.kod == Partner_Kod_Entry.Text);
             if (keres != null)
             {
+                isProgrammaticChange = true;
                 Partner_Nev_Picker.SelectedItem = keres;
+                isProgrammaticChange = false;
+            }
+            else
+            {
+                isProgrammaticChange = true;
+                Partner_Nev_Picker.SelectedItem = null;
+                isProgrammaticChange = false;
             }
             Filter();
         }
-
+        /// <summary>
+        /// Kezeli a Partner_Nev_Picker SelectedIndexChanged eseményét.
+        /// </summary>
         private void Partner_Nev_Picker_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (isProgrammaticChange) return;
             if (Partner_Nev_Picker.SelectedItem != null)
             {
-                Partner talalt = (Partner)Partner_Nev_Picker.SelectedItem;
-                if (talalt != null)
-                {
-                    Partner_Kod_Entry.Text = talalt.kod.ToString();
-                }
-                
+                Partner selectedPartner = (Partner)Partner_Nev_Picker.SelectedItem;
+                isProgrammaticChange = true;
+                Partner_Kod_Entry.Text = selectedPartner.kod;
+                isProgrammaticChange = false;
             }
             Filter();
         }
-
-
+        /// <summary>
+        /// Kezeli a Sorszam_Entry TextChanged eseményét.
+        /// </summary>
         private void Sorszam_Entry_TextChanged(object sender, TextChangedEventArgs e)
         {
             Filter();
         }
-
+        /// <summary>
+        /// Kezeli a Tema_Picker SelectedIndexChanged eseményét.
+        /// </summary>
         private void Tema_Picker_SelectedIndexChanged(object sender, EventArgs e)
         {
             Filter();
         }
-
+        /// <summary>
+        /// Kezeli a Targy_Entry TextChanged eseményét.
+        /// </summary>
         private void Targy_Entry_TextChanged(object sender, TextChangedEventArgs e)
         {
             Filter();
         }
-
+        /// <summary>
+        /// Kezeli a Telefon_Entry TextChanged eseményét.
+        /// </summary>
         private void Telefon_Entry_TextChanged(object sender, TextChangedEventArgs e)
         {
             Filter();
         }
-
+        /// <summary>
+        /// Kezeli a Hordozo_Picker SelectedIndexChanged eseményét.
+        /// </summary>
         private void Hordozo_Picker_SelectedIndexChanged(object sender, EventArgs e)
         {
             Filter();
         }
-
+        /// <summary>
+        /// Kezeli a Felvetel_Checkbox CheckedChanged eseményét.
+        /// </summary>
         private void Felvetel_Checkbox_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
             if (Felvetel_Checkbox.IsChecked == true)
@@ -260,12 +352,16 @@ namespace KontrollDoc.Views
                 Felvetel_DatePicker.IsEnabled = false;
             }
         }
-
+        /// <summary>
+        /// Kezeli a Felvetel_DatePicker PropertyChanged eseményét.
+        /// </summary>
         private void Felvetel_DatePicker_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             Filter();
         }
-
+        /// <summary>
+        /// Kezeli a Hatarido_Checkbox CheckedChanged eseményét.
+        /// </summary>
         private void Hatarido_Checkbox_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
             if (Hatarido_Checkbox.IsChecked == true)
@@ -277,17 +373,23 @@ namespace KontrollDoc.Views
                 Hatarido_DatePicker.IsEnabled = false;
             }
         }
-
+        /// <summary>
+        /// Kezeli a Hatarido_DatePicker PropertyChanged eseményét.
+        /// </summary>
         private void Hatarido_DatePicker_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             Filter();
         }
-
+        /// <summary>
+        /// Kezeli a Project_Picker SelectedIndexChanged eseményét.
+        /// </summary>
         private void Project_Picker_SelectedIndexChanged(object sender, EventArgs e)
         {
             Filter();
         }
-
+        /// <summary>
+        /// Kezeli a Megjegyzes_Entry TextChanged eseményét.
+        /// </summary>
         private void Megjegyzes_Entry_TextChanged(object sender, TextChangedEventArgs e)
         {
             Filter();

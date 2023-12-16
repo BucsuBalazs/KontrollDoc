@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:renderers="clr-namespace:KontrollDoc.Resources.Renderers"
+             x:Class="KontrollDoc.Views.Scan"
+             BackgroundColor="#7B68EE"
+             Title="Szkennelés">
+    
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
+            <Image Source="scanner2.png" HorizontalOptions="Center" VerticalOptions="Center"/>
+            <Frame Padding="20,20,20,20" BackgroundColor="White" WidthRequest="250" HorizontalOptions="Center" VerticalOptions="Center" CornerRadius="10">
+                <StackLayout Orientation="Vertical" Spacing="5">
+                    <renderers:BluePicker x:Name="Scanner_Picker" TextColor="Blue"/>
+                    <Button Text="Mappa választás és szkennelés" BackgroundColor="#2196F3" TextColor="White" Clicked="Scan_Button_Clicked" />
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

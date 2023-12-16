@@ -30,7 +30,7 @@
 
                     <Label  Grid.Row="0"
                             Grid.Column="0" 
-                            Text="Típus:" 
+                            Text="Típus*:" 
                             TextColor="Black"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
@@ -109,7 +109,7 @@
 
                     <Label  Grid.Row="3"
                             Grid.Column="0" 
-                            Text="Partner kód:" 
+                            Text="Partner kód*:" 
                             TextColor="Black"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
@@ -134,7 +134,7 @@
 
                     <Label  Grid.Row="4"
                             Grid.Column="0" 
-                            Text="Partner cég:" 
+                            Text="Partner cég*:" 
                             TextColor="Black"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
@@ -194,7 +194,7 @@
 
                     <Label  Grid.Row="6"
                             Grid.Column="0" 
-                            Text="Téma:" 
+                            Text="Téma*:" 
                             TextColor="Black"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
@@ -227,7 +227,7 @@
 
                     <Label  Grid.Row="7"
                             Grid.Column="0" 
-                            Text="Tárgy:" 
+                            Text="Tárgy*:" 
                             TextColor="Black"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
@@ -276,7 +276,7 @@
 
                     <Label  Grid.Row="9"
                             Grid.Column="0" 
-                            Text="Hordozó:" 
+                            Text="Hordozó*:" 
                             TextColor="Black"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
@@ -381,7 +381,7 @@
 
                     <Label  Grid.Row="13"
                             Grid.Column="0" 
-                            Text="Projekthivatkozás:" 
+                            Text="Projekthivatkozás*:" 
                             TextColor="Black"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
@@ -448,8 +448,9 @@
                              Grid.Column="1"/>
 
                     <StackLayout Grid.Row="15" Grid.Column="1" Orientation="Horizontal" Spacing="0" HorizontalOptions="Center" VerticalOptions="Center" Padding="0">
-                        <Button Text="hozzáadása" Scale="0.8" Clicked="Csatolmany_Hozzaadasa_Clicked"/>
-                        <Button Text="törlése" Scale="0.8" Clicked="Csatolmany_Torlese_Clicked"/>
+                        <Button x:Name="szkan" Text="Szkennelés" Scale="0.8" Clicked="Szkenneles_Clicked"/>
+                        <Button Text="Kiválaszt" Scale="0.8" Clicked="Csatolmany_Kivalasztasa_Clicked"/>
+                        <Button Text="vissza" Scale="0.8" Clicked="Csatolmany_Torlese_Clicked"/>
                     </StackLayout>
 
                     <BoxView Grid.Row="16"
@@ -461,8 +462,8 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                        <Frame Padding="0,0,0,0" Margin="0,0,0,0">
-                                            <Grid Padding="0,0,0,0" Margin="0,0,0,0">
+                                        <Frame Padding="0,0,0,0" Margin="0,0,0,0" BackgroundColor="White">
+                                            <Grid Padding="0,0,0,0" Margin="0,0,0,0" ColumnSpacing="0" RowSpacing="0">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="0.4*" />
                                                     <ColumnDefinition Width="0.6*" />
@@ -476,6 +477,7 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </StackLayout>
+                    
                     <Grid Grid.Row="17" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Fill" Padding="0,0,0,0" Margin="0,0,0,0"  ColumnSpacing="0" RowSpacing="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />

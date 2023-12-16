@@ -1,5 +1,9 @@
 ﻿using System;
 
+/// <summary>
+/// Fit Számítástechnikától kapott osztály.
+/// </summary>
+
 namespace FIT_Common
 {
     public static class StringExtensions

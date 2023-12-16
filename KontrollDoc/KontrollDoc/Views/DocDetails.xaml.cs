@@ -12,22 +12,50 @@ using System.Data;
 using System.Data.SqlClient;
 using FIT_Common;
 using KontrollDoc.Models;
+using KontrollDoc.Services.DependencyServices;
 
 namespace KontrollDoc.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
+    /// <summary>
+    /// Egy ContentPage amely Dokumentum adatainak való megjelenítéséért és frissítésért felelős
+    /// </summary>
     public partial class DocDetails : ContentPage
     {
+        /// <summary>
+        /// Az adatbázis környezet.
+        /// </summary>
         DB dbc;
+        /// <summary>
+        /// Kiválasztott dokumentum azonosítója.
+        /// </summary>
         int selectedItemAzonosito;
-        //public static IEnumerable<FileResult> csatolmany = null;
+        /// <summary>
+        /// Csatolmány fájlainak.
+        /// </summary>
         List<FileResult> csatolmanyok_list = new List<FileResult>();
-        List<DokHivatkozas> csatolmanyok_class_list = new List<DokHivatkozas>();
 
+        /// <summary>
+        /// Csatolmányok osztálynak lista.
+        /// </summary>
+        List<DokHivatkozas> csatolmanyok_class_list = new List<DokHivatkozas>();
+        /// <summary>
+        /// A dokumentumok törzs adatai.
+        /// </summary>
         KapcssDokTorzs doktorzs;
+        /// <summary>
+        /// A partnerek listája.
+        /// </summary>
         List<Partner> partnerek;
         List<Partner> sortedPartnerek;
 
+        private bool isProgrammaticChange = false;
+
+        /// <summary>
+        /// Inicializálja a <see cref="DocDetails"/> osztály új példányát a kiválasztott dokumentum meghatározott sorszámával.
+        /// </summary>
+        /// <param name="dbc">Az adatbázis környezet.</param>
+        /// <param name="selectedItemAzonosito">A kiválasztott dokumentum sorszáma.</param>
         public DocDetails(DB dbc, int selectedItemAzonosito)
         {
             InitializeComponent();
@@ -36,26 +64,29 @@ namespace KontrollDoc.Views
             Partner partner = new Partner(dbc);
             this.partnerek = partner.GetPartnerLista();
         }
-
+        /// <summary>
+        /// Az oldal megjelenésekor hívják. Betölti az doktorzset és a kivaálsztott dokumentum adatait, csatolmányait.
+        /// </summary>
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
+            // Doktorzs betöltése a pickerekbe.
             this.doktorzs = new KapcssDokTorzs(dbc);
             List<string> tipusok = this.doktorzs.GetDokTorzs("Tipus");
             List<string> temak = this.doktorzs.GetDokTorzs("Tema");
             List<string> hordozok = this.doktorzs.GetDokTorzs("Hordozo");
             List<string> hivatkozasok = this.doktorzs.GetDokTorzs("Projekt");
 
-            sortedPartnerek = partnerek.OrderBy(p => p.Nev).ToList();
-
             Tipus_Picker.ItemsSource = tipusok;
             Tema_Picker.ItemsSource = temak;
             Hordozo_Picker.ItemsSource = hordozok;
             Project_Picker.ItemsSource = hivatkozasok;
 
-            Partner_Nev_Picker.ItemsSource = sortedPartnerek;
+            Partner_Nev_Picker.ItemsSource = partnerek;
             Partner_Nev_Picker.ItemDisplayBinding = new Binding("Nev");
 
+            // Dokumentum adatainak lekérése.
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
             SqlParameter sqlParameter = new SqlParameter();
             sqlParameter.ParameterName = "@DokAz";
@@ -65,6 +96,7 @@ namespace KontrollDoc.Views
             System.Data.DataTable dataTable = dbc.GetTableFromSPAB("DokumentumAdat", sqlParameters);
             System.Data.DataRow dr = dataTable.Rows[0];
 
+            // A dokumentumnak megfelelő doktorzs kiválasztása.
             List<SqlParameter> torzs = new List<SqlParameter>();
             DataTable DokTorzs = dbc.GetTableFromSPAB("DokTorzsLista", torzs);
 
@@ -76,6 +108,7 @@ namespace KontrollDoc.Views
                 if ((int)dr["ProjektHivatkozasAz"] == (int)DokTorzs.Rows[i]["Azonosito"]) { Project_Picker.SelectedItem = (string)DokTorzs.Rows[i]["Megnevezes"]; }
             }
 
+            // Dokumentum további adatainak betöltése.
             Iktato_Entry.Text = (string)dr["Iktato"];
 
             if ((int)dr["Inaktiv"] == 0)
@@ -87,27 +120,15 @@ namespace KontrollDoc.Views
                 Hasznalt_CheckBox.IsChecked = true;
             }
 
-            for (int i = 0; i < sortedPartnerek.Count; i++)
+            for (int i = 0; i < partnerek.Count; i++)
             {
-                Partner selected = sortedPartnerek.Find(p => p.Azonosito == (int)dr["PartnerAz"]);
+                Partner selected = partnerek.Find(p => p.Azonosito == (int)dr["PartnerAz"]);
                 if (selected != null)
                 {
                     Partner_Kod_Entry.Text = selected.kod;
                     Partner_Nev_Picker.SelectedItem = selected;
                 }
             }
-
-            /*List<SqlParameter> empty = new List<SqlParameter>();
-            System.Data.DataTable PartnerLista = dbc.GetTableFromSPAB("PartnerLista", empty);
-
-            for (int i = 0; i < PartnerLista.Rows.Count; i++)
-            {
-                if ((int)dr["PartnerAz"] == (int)PartnerLista.Rows[i]["Azonosito"])
-                {
-                    Partner_Kod_Entry.Text = (string)PartnerLista.Rows[i]["kod"];
-                    Partner_Nev_Picker.SelectedItem = (string)PartnerLista.Rows[i]["Nev"];
-                }
-            }*/
 
             Sorszam_Entry.Text = dr["Sorszam"].ToString();
 
@@ -128,12 +149,9 @@ namespace KontrollDoc.Views
                 Hatarido_DatePicker.BackgroundColor = Color.White;
             }
 
-
-
             Megjegyzes_Entry.Text = dr["Megjegyzes"].ToString();
 
-            //sqlParameters.Clear();
-
+            // Dokumentum csatolmányainak letöltése.
             List<SqlParameter> sqlParameters2 = new List<SqlParameter>();
             SqlParameter sqlParameter2 = new SqlParameter();
             sqlParameter2.ParameterName = "@DokAz";
@@ -141,7 +159,6 @@ namespace KontrollDoc.Views
             sqlParameters2.Add(sqlParameter2);
 
             DataTable dataTable2 = dbc.GetTableFromSPAB("DokHivatkozasAdat", sqlParameters2);
-            //System.Data.DataRow dr2 = dataTable.Rows[0];
 
             foreach (DataRow dr2 in dataTable2.Rows)
             {
@@ -151,28 +168,22 @@ namespace KontrollDoc.Views
                 csat.DokPath = dr2["DokPath"].ToString();
                 csat.Inaktiv = (bool)dr2["Inaktiv"];
                 csatolmanyok_class_list.Add(csat);
-                //csat.ImageData = (byte[])dr2["ImageData"];
 
                 FileResult file = new FileResult(csat.DokPath);
                 file.FileName = csat.DokFilenev;
-                //file = new MemoryStream(csat.ImageData);
                 this.csatolmanyok_list.Add(file);
 
-                //var fileStream = new MemoryStream(csat.ImageData);
-
-                //var asd = new FileBase(fileStream);
-                //File.Wr
-                //var asd = new File(fileStream, "application/octet-stream", csat.DokFilenev);
             }
-            //csatolmany.
             csatolmanyok_ListView.ItemsSource = this.csatolmanyok_list;
 
+            // Mellékletek betöltése.
             int sorszam = int.Parse(Sorszam_Entry.Text);
             Dokumentum getdocs = new Dokumentum();
             List<Dokumentum> docs = getdocs.GetDokumentumok(dbc);
             var results = docs.FindAll(dok => dok.FoDokumentum == sorszam);
             Mellékletek_ListView.ItemsSource = results;
 
+            // Irattárak betöltése.
             Dokhelye dokhelye = new Dokhelye();
             List<Dokhelye> doks = dokhelye.GetDocHely(dbc);
             var geth = doks.Find(d => d.Dokaz == selectedItemAzonosito);
@@ -183,26 +194,22 @@ namespace KontrollDoc.Views
             Egyeb_Entry.Text = geth.Egyeb;
 
         }
-
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-        }
-
-
-
+        /// <summary>
+        /// A Hozzáadás gomb eseménykezelője.
+        /// </summary>
         async private void Csatolmany_Hozzaadasa_Clicked(object sender, EventArgs e)
         {
             try
             {
+                // Filepickerrel csatolmányok bekérése a usertől.
                 var csatolmany = await FilePicker.PickMultipleAsync();
 
                 if (csatolmany != null)
                 {
-
+                    // át iterálás minden eegyes csatolmányon
                     foreach (var file in csatolmany)
                     {
+                        // csatolmány feltöltésének beállítása
                         List<SqlParameter> KapcsDokHivFrissitparams = new List<SqlParameter>();
 
                         SqlParameter DokAzparam = new SqlParameter();
@@ -220,7 +227,7 @@ namespace KontrollDoc.Views
                         Kapcsparam.Value = 1;
                         KapcsDokHivFrissitparams.Add(Kapcsparam);
 
-
+                        // file streamek átkonvertálása bájt tömbbe.
                         byte[] fileBytes;
 
                         using (var stream = await file.OpenReadAsync())
@@ -244,6 +251,7 @@ namespace KontrollDoc.Views
                         DokPath.Value = file.FullPath;
                         KapcsDokHivFrissitparams.Add(DokPath);
 
+                        // csatolmány feltöltése.
                         var ujHivAz = dbc.ExecuteSPAB("KapcsDokHivUj", KapcsDokHivFrissitparams);
 
                         DokHivatkozas csat = new DokHivatkozas();
@@ -251,34 +259,40 @@ namespace KontrollDoc.Views
                         csatolmanyok_class_list.Add(csat);
                     }
 
-
+                    // feltöltött csatolmány hozzáadása a már meglévő csatományokhoz
                     this.csatolmanyok_list.AddRange(csatolmany);
-
+                    // feltöltött csatolmányok megjelenítése.
                     csatolmanyok_ListView.ItemsSource = null;
                     csatolmanyok_ListView.ItemsSource = this.csatolmanyok_list;
                 }
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", ex.Message, "OK");
+                await DisplayAlert("Error", "Csatolmány hozzáadása megszakadt", "OK");
             }
         }
-
-        async private void csat_letoltes_Clicked(object sender, EventArgs e)
+        /// <summary>
+        /// A Megnyitás gomb eseménykezelője.
+        /// </summary>
+        async private void csat_megnyitas_Clicked(object sender, EventArgs e)
         {
+            // Fájl kiválasztása.
             var button = sender as Button;
             var item = button.BindingContext as FileResult;
             var index = csatolmanyok_ListView.TabIndex;
             var hiv = this.csatolmanyok_class_list[index];
 
+            // Kiválasztott fájl letöltéséhez beállítások.
             List<SqlParameter> DokHivatkozasGetHivparams = new List<SqlParameter>();
             SqlParameter HivAz = new SqlParameter();
             HivAz.ParameterName = "@HivAz";
             HivAz.Value = hiv.Azonosito;
             DokHivatkozasGetHivparams.Add(HivAz);
+            // Kiválasztott fájl letöltése.
             DataTable dt = dbc.GetTableFromSPAB("DokHivatkozasGetHiv", DokHivatkozasGetHivparams);
             DataRow dr = dt.Rows[0];
 
+            // letöltött fájl beállítása
             DokHivatkozas download = new DokHivatkozas();
             download.Azonosito = (int)dr["Azonosito"];
             download.DokFilenev = dr["DokFilenev"].ToString();
@@ -288,6 +302,7 @@ namespace KontrollDoc.Views
 
             try
             {
+                // Letöltött fájl ideiglenes lementése és megjelenítése.
                 string filePath = await SaveFileToDownloadsFolder(download.DokFilenev, download.ImageData);
 
                 await Launcher.OpenAsync(new OpenFileRequest
@@ -295,46 +310,109 @@ namespace KontrollDoc.Views
                     File = new ReadOnlyFile(filePath)
                 });
 
-                //await DisplayAlert("Siker", filePath, "OK");
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Hiba", ex.Message, "OK");
+                await DisplayAlert("Hiba", "csatollmány megnyitása megszakadt", "OK");
             }
 
         }
 
-
+        /// <summary>
+        /// Aszinkron módon menti a fájlt az alkalmazás gyorsítótárának Letöltések mappájába.
+        /// </summary>
+        /// <param name="fileName">A mentendő fájl neve.</param>
+        /// <param name="fileBytes">A fájl tartalmát reprezentáló bájttömb.</param>
+        /// <returns>A mentett fájl teljes elérési útja.</returns>
         public async Task<string> SaveFileToDownloadsFolder(string fileName, byte[] fileBytes)
         {
-            // Get the Downloads folder path
+            // Letöltések mappa elérési útja.
             var downloadsPath = Path.Combine(FileSystem.CacheDirectory, "Downloads");
 
-            // Create the Downloads folder if it doesn't exist
+            // Ha nincs letöltések csinálunk.
             if (!Directory.Exists(downloadsPath))
             {
                 Directory.CreateDirectory(downloadsPath);
             }
 
-            // Create the file path
+            // útvonal összerakása.
             var filePath = Path.Combine(downloadsPath, fileName);
 
-            // Write the file to disk
+            // Fájl lementése.
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await fileStream.WriteAsync(fileBytes, 0, fileBytes.Length);
             }
 
+            // útvonal vissza adása.
             return filePath;
         }
-
-        private void csat_torles_Clicked(object sender, EventArgs e)
+        /// <summary>
+        /// Nyomtatás gomb esemény kezelője.
+        /// </summary>
+        async private void csat_nyomtatas_Clicked(object sender, EventArgs e)
         {
+            // Fájl kiválasztása.
             var button = sender as Button;
             var item = button.BindingContext as FileResult;
             var index = csatolmanyok_ListView.TabIndex;
             var hiv = this.csatolmanyok_class_list[index];
 
+            // Kiválasztott fájl letöltéséhez beállítások.
+            List<SqlParameter> DokHivatkozasGetHivparams = new List<SqlParameter>();
+            SqlParameter HivAz = new SqlParameter();
+            HivAz.ParameterName = "@HivAz";
+            HivAz.Value = hiv.Azonosito;
+            DokHivatkozasGetHivparams.Add(HivAz);
+
+            // Kiválasztott fájl letöltése.
+            DataTable dt = dbc.GetTableFromSPAB("DokHivatkozasGetHiv", DokHivatkozasGetHivparams);
+            DataRow dr = dt.Rows[0];
+
+            // letöltött fájl beállítása
+            DokHivatkozas download = new DokHivatkozas();
+            download.Azonosito = (int)dr["Azonosito"];
+            download.DokFilenev = dr["DokFilenev"].ToString();
+            download.DokPath = dr["DokPath"].ToString();
+            download.Inaktiv = (bool)dr["Inaktiv"];
+            download.ImageData = (byte[])dr["ImageData"];
+
+            // fájl formátum beállítása
+            var fileFormat = Path.GetExtension(download.DokFilenev).ToLower();
+            var compatibleFormats = new[] { ".png", ".jpg", ".jpeg", ".pdf" };
+
+            if (compatibleFormats.Contains(fileFormat))
+            {
+                // Ha UWP-n fut
+                if (Device.RuntimePlatform == Device.UWP)
+                {
+                    // UWP nyomtatási dependecy service futtatása.
+                    DependencyService.Get<IUWPPrintService>().PrintByteArrayAsync(download.ImageData, fileFormat);
+                }
+                if (Device.RuntimePlatform == Device.Android) 
+                {
+                    // Android nyomtatási dependecy service futtatása.
+                    DependencyService.Get<IAndroidPrintService>().PrintByteArrayAsync(download.ImageData, fileFormat);
+                }
+            }
+            else
+            {
+                await DisplayAlert("Error", "Nyomtatás csak .pdf .png .jpg .jpeg kiterjesztésű fájlokra alkalmazható", "Ok");
+            }
+        }
+
+        /// <summary>
+        /// A Törlés gomb eseménykezelője.
+        /// </summary>
+        private void csat_torles_Clicked(object sender, EventArgs e)
+        {
+            // Fájl kiválasztása.
+            var button = sender as Button;
+            var item = button.BindingContext as FileResult;
+            var index = csatolmanyok_ListView.TabIndex;
+            var hiv = this.csatolmanyok_class_list[index];
+
+            // Kiválasztott fájl frissítéséhez beállítások.
             List<SqlParameter> KapcsDokHivFrissitparams = new List<SqlParameter>();
 
             SqlParameter DokAzparam = new SqlParameter();
@@ -352,21 +430,29 @@ namespace KontrollDoc.Views
             Kapcsparam.Value = 0;
             KapcsDokHivFrissitparams.Add(Kapcsparam);
 
+            // Kiválasztott fájl frissítése.
             dbc.ExecuteSPAB("KapcsDokHivFrissit", KapcsDokHivFrissitparams);
 
+            // Kiválasztott fájl törléséhez beállítások.
             List<SqlParameter> DokHivTorolparams = new List<SqlParameter>();
             SqlParameter HivAz = new SqlParameter();
             HivAz.ParameterName = "@HivAz";
             HivAz.Value = hiv.Azonosito;
             DokHivTorolparams.Add(HivAz);
+
+            // Kiválasztott fájl törlése beállítások.
             dbc.ExecuteSPAB("DokHivatkozasTorol", DokHivTorolparams);
 
+            // csatolmány kivétele a csatolmányok listából.
             this.csatolmanyok_class_list.Remove(hiv);
             this.csatolmanyok_list.Remove(item);
             csatolmanyok_ListView.ItemsSource = null;
             csatolmanyok_ListView.ItemsSource = this.csatolmanyok_list;
         }
 
+        /// <summary>
+        /// Kezeli a Hatarido_CheckBox CheckedChanged eseményét.
+        /// </summary>
         private void Hatarido_CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
             if (Hatarido_Checkbox.IsChecked == true)
@@ -379,39 +465,60 @@ namespace KontrollDoc.Views
             }
         }
 
+        /// <summary>
+        /// Kezeli a Partner_Kod_Entry TextChanged eseményét.
+        /// </summary>
         private void Partner_Kod_Entry_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var keres = sortedPartnerek.Find(p => p.kod == Partner_Kod_Entry.Text);
-            if (keres != null) 
+            if (isProgrammaticChange) return;
+            var keres = partnerek.Find(p => p.kod == Partner_Kod_Entry.Text);
+            if (keres != null)
             {
+                // Beállítja a pickert is a megfelelő kódú partnerre.
+                isProgrammaticChange = true;
                 Partner_Nev_Picker.SelectedItem = keres;
+                isProgrammaticChange = false;
+            }
+            else 
+            {
+                // üres ha nincs kiválasztott partner
+                isProgrammaticChange = true;
+                Partner_Nev_Picker.SelectedItem = null;
+                isProgrammaticChange = false;
             }
         }
-
+        /// <summary>
+        /// Kezeli a Partner_Nev_Picker SelectedIndexChanged eseményét.
+        /// </summary>
         private void Partner_Nev_Picker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (Partner_Nev_Picker.SelectedItem != null) 
+            if (isProgrammaticChange) return;
+            if (Partner_Nev_Picker.SelectedItem != null)
             {
-                Partner talalt = (Partner)Partner_Nev_Picker.SelectedItem;
-                if (talalt != null) 
-                {
-                    Partner_Kod_Entry.Text = talalt.kod.ToString();
-                }
+                Partner selectedPartner = (Partner)Partner_Nev_Picker.SelectedItem;
+                // Beállítja a kod_entryt is a megfelelő nevű partnerre.
+                isProgrammaticChange = true;
+                Partner_Kod_Entry.Text = selectedPartner.kod;
+                isProgrammaticChange = false;
             }
         }
-
+        /// <summary>
+        /// A Frissít gomb eseménykezelője.
+        /// </summary>
         private async void Frissit_Clicked(object sender, EventArgs e)
         {
             try
             {
+                // Frissített dokumentum adatainak begyűjtése.
                 Dokumentum modosito_dokumentum = new Dokumentum();
                 modosito_dokumentum.Azonosito = this.selectedItemAzonosito;
                 modosito_dokumentum.FoDokumentum = null;
                 var Tipus = this.doktorzs.dokTorzs.Find(d => d.Megnevezes == Tipus_Picker.SelectedItem.ToString());
                 modosito_dokumentum.TipusAz = Tipus.Azonosito;
                 modosito_dokumentum.Iktato = Iktato_Entry.Text;
-                //var Partner = this.partnerek.Find(d => d.kod == Partner_Kod_Picker.SelectedItem.ToString());
-                modosito_dokumentum.PartnerAz = int.Parse( Partner_Kod_Entry.Text);
+                var Partner = this.partnerek.Find(d => d.kod == Partner_Kod_Entry.Text);
+                //modosito_dokumentum.PartnerAz = int.Parse( Partner_Kod_Entry.Text);
+                modosito_dokumentum.PartnerAz = Partner.Azonosito;
                 var Tema = this.doktorzs.dokTorzs.Find(d => d.Megnevezes == Tema_Picker.SelectedItem.ToString());
                 modosito_dokumentum.TemaAz = Tema.Azonosito;
                 modosito_dokumentum.Targy = Targy_Entry.Text;
@@ -430,6 +537,7 @@ namespace KontrollDoc.Views
                 if (Hasznalt_CheckBox.IsChecked) { modosito_dokumentum.Inaktiv = true; }
                 else { modosito_dokumentum.Inaktiv = false; }
 
+                // Frissített dokumentum adatainak beállítása feltöltésere.
                 List<SqlParameter> DokumentumModositparams = new List<SqlParameter>();
 
                 SqlParameter DokAzparam = new SqlParameter();
@@ -527,44 +635,63 @@ namespace KontrollDoc.Views
                 Inaktiv.Value = modosito_dokumentum.Inaktiv;
                 DokumentumModositparams.Add(Inaktiv);
 
-
+                // dokumentum frissítése.
                 dbc.ExecuteSPAB("DokumentumModosit", DokumentumModositparams);
 
 
                 await Navigation.PopAsync();
             }
             catch (Exception ex) {
-                await DisplayAlert("Hiba", ex.Message, "ok");
+                await DisplayAlert("Hiba", "Frissítés sikertelen", "ok");
             }
         }
 
+        /// <summary>
+        /// A Tipus gomb eseménykezelője.
+        /// </summary>
         private async void Tipus_Button_Clicked(object sender, EventArgs e)
         {
+            // navigálás DokTorzsEdit lapra Tipus doktörzs megnevezésével
             await Navigation.PushAsync(new Views.DokTorzsEdit(dbc, "Tipus"));
         }
-
+        /// <summary>
+        /// Kezeli a Téma gomb eseménykezelője.
+        /// </summary>
         private async void Tema_Button_Clicked(object sender, EventArgs e)
         {
+            // navigálás DokTorzsEdit lapra Téma doktörzs megnevezésével
             await Navigation.PushAsync(new Views.DokTorzsEdit(dbc, "Tema"));
         }
-
+        /// <summary>
+        /// Kezeli a Hordozó gomb eseménykezelője.
+        /// </summary>
         private async void Hordozo_Button_Clicked(object sender, EventArgs e)
         {
+            // navigálás DokTorzsEdit lapra Hordozó doktörzs megnevezésével
             await Navigation.PushAsync(new Views.DokTorzsEdit(dbc, "Hordozo"));
         }
-
+        /// <summary>
+        /// Kezeli a projekt gomb eseménykezelője.
+        /// </summary>
         private async void Project_Button_Clicked(object sender, EventArgs e)
         {
+            // navigálás DokTorzsEdit lapra Projekt doktörzs megnevezésével
             await Navigation.PushAsync(new Views.DokTorzsEdit(dbc, "Projekt"));
         }
-
+        /// <summary>
+        /// A Melléklet Hozzáadás gomb eseménykezelője.
+        /// </summary>
         private async void Hozzaadas_Clicked(object sender, EventArgs e)
         {
+            // navigálás DokNew lapra a dokumentum sorszámával.
             await Navigation.PushAsync(new Views.DocNew(dbc, int.Parse(Sorszam_Entry.Text)));
         }
-
+        /// <summary>
+        /// A Áthelyez gomb eseménykezelője.
+        /// </summary>
         async private void Hely_Button_Clicked(object sender, EventArgs e)
         {
+            // Dokumentum áthelyezésének beállítása
             List<SqlParameter> DokHelyeModositparams = new List<SqlParameter>();
 
             SqlParameter DokAzparam2 = new SqlParameter();
@@ -592,8 +719,10 @@ namespace KontrollDoc.Views
             if (string.IsNullOrEmpty(Egyeb_Entry.Text)) { Egyeb.Value = ""; } else { Egyeb.Value = Egyeb_Entry.Text; }
             DokHelyeModositparams.Add(Egyeb);
 
+            // Dokumentum áthelyezése
             dbc.ExecuteSPAB("DokHelyeModosit", DokHelyeModositparams);
-
+            
+            // User informálása
             await DisplayAlert("Siker","Helyezze át a dokumnetumot a megfelelő Irattárba!","Ok");
         }
     }

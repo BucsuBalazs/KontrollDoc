@@ -6,13 +6,30 @@ using System.Text;
 
 namespace KontrollDoc.Models
 {
+    /// <summary>
+    /// FizMod táblát reprezentáló osztály
+    /// </summary>
     internal class FizMod
     {
+        /// <summary>
+        /// Azonosito getter, setter
+        /// </summary>
         public int Azonosito { get; set; }
+        /// <summary>
+        /// Megnevezes getter, setter
+        /// </summary>
         public string Megnevezes { get; set; }
 
+        /// <summary>
+        /// Inicializálja a <see cref="FizMod"/> osztály új példányát.
+        /// </summary>
         public FizMod() { }
 
+        /// <summary>
+        /// Lekéri a FizMod példányok listáját az adatbázisból.
+        /// </summary>
+        /// <param name="dbc">Az adatbázis környezet</param>
+        /// <returns>A FizMod példányok listája.</returns>
         public List<FizMod> GetFizMod(DB dbc)
         {
             List<SqlParameter> empty = new List<SqlParameter>();

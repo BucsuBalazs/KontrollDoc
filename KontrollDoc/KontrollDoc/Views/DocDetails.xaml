@@ -36,7 +36,7 @@
 
                     <Label  Grid.Row="0"
                             Grid.Column="0" 
-                            Text="Típus:" 
+                            Text="Típus*:" 
                             TextColor="Black"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
@@ -114,7 +114,7 @@
 
                     <Label  Grid.Row="3"
                             Grid.Column="0" 
-                            Text="Partner kód:" 
+                            Text="Partner kód*:" 
                             TextColor="Black"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
@@ -139,7 +139,7 @@
 
                     <Label  Grid.Row="4"
                             Grid.Column="0" 
-                            Text="Partner cég:" 
+                            Text="Partner cég*:" 
                             TextColor="Black"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
@@ -190,7 +190,7 @@
 
                     <Label  Grid.Row="6"
                             Grid.Column="0" 
-                            Text="Téma:" 
+                            Text="Téma*:" 
                             TextColor="Black"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
@@ -223,7 +223,7 @@
 
                     <Label  Grid.Row="7"
                             Grid.Column="0" 
-                            Text="Tárgy:" 
+                            Text="Tárgy*:" 
                             TextColor="Black"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
@@ -272,7 +272,7 @@
 
                     <Label  Grid.Row="9"
                             Grid.Column="0" 
-                            Text="Hordozó:" 
+                            Text="Hordozó*:" 
                             TextColor="Black"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
@@ -377,7 +377,7 @@
 
                     <Label  Grid.Row="13"
                             Grid.Column="0" 
-                            Text="Projekthivatkozás:" 
+                            Text="Projekthivatkozás*:" 
                             TextColor="Black"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
@@ -452,7 +452,7 @@
                              Grid.ColumnSpan="2"/>
 
 
-                    <StackLayout Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Spacing="0" HorizontalOptions="Center" VerticalOptions="Center" Padding="0">
+                    <StackLayout Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Spacing="0" HorizontalOptions="Center" VerticalOptions="Center" Padding="0" Margin="0,0,0,0">
                         <ListView x:Name="csatolmanyok_ListView"  HeightRequest="50">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
@@ -460,15 +460,24 @@
                                         <Frame Padding="0,0,0,0" Margin="0,0,0,0" BackgroundColor="White">
                                             <Grid Padding="0,0,0,0" Margin="0,0,0,0" ColumnSpacing="0" RowSpacing="0">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="0.2*" />
-                                                    <ColumnDefinition Width="0.5*" />
-                                                    <ColumnDefinition Width="0.3*" />
-                                                    <ColumnDefinition Width="0.3*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
-                                                <Label TextColor="Black" Grid.Column="0" Scale="0.8" Text="{Binding FileName}" />
-                                                <Label TextColor="Black" Grid.Column="1" Scale="0.8"  Text="{Binding FullPath}" />
-                                                <Button Grid.Column="2" BackgroundColor="#D3D3D3" TextColor="Black" Scale="0.6" FontSize="Micro" Text="megnyitás" Clicked="csat_letoltes_Clicked"/>
-                                                <Button Grid.Column="3" BackgroundColor="#D3D3D3" TextColor="Black" Scale="0.6" FontSize="Micro" Text="törlés" Clicked="csat_torles_Clicked"/>
+                                                <Label TextColor="Black" Scale="0.8" Grid.Column="0" Text="{Binding FileName}" />
+                                                <Label TextColor="Black" Scale="0.8" Grid.Column="1"  Text="{Binding FullPath}" />
+                                                <BoxView Grid.Column="2"/>
+                                                <StackLayout Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" Padding="0,0,0,0" Margin="0,0,0,0">
+                                                    <Button WidthRequest="95" HeightRequest="40" BackgroundColor="#D3D3D3" TextColor="Black" Scale="0.7" FontSize="Micro" Text="megnyitás" Clicked="csat_megnyitas_Clicked"/>
+                                                </StackLayout>
+                                                <StackLayout Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" Padding="0,0,0,0" Margin="0,0,0,0">
+                                                    <Button WidthRequest="95" HeightRequest="40" BackgroundColor="#D3D3D3" TextColor="Black" Scale="0.7" FontSize="Micro" Text="Nyomtatás" Clicked="csat_nyomtatas_Clicked"/>
+                                                </StackLayout>
+                                                <StackLayout Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" Padding="0,0,0,0" Margin="0,0,0,0">
+                                                    <Button WidthRequest="80" HeightRequest="40" BackgroundColor="#D3D3D3" TextColor="Black" Scale="0.7" FontSize="Micro" Text="törlés" Clicked="csat_torles_Clicked"/>
+                                                </StackLayout>
                                             </Grid>
                                         </Frame>
                                     </ViewCell>

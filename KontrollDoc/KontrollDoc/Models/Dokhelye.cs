@@ -6,45 +6,66 @@ using System.Text;
 
 namespace KontrollDoc.Models
 {
+    /// <summary>
+    /// Dokhelye táblát reprezentáló osztály
+    /// </summary>
     internal class Dokhelye
     {
+        /// <summary>
+        /// Inicializálja az <see cref="Dokhelye"/> osztály új példányát.
+        /// </summary>
         public Dokhelye() { }
-
+        /// <summary>
+        /// Azonosito getter, setter
+        /// </summary>
         public int Azonosito { get; set; }
+        /// <summary>
+        /// Dokaz getter, setter
+        /// </summary>
         public int Dokaz { get; set;}
 
-        private string _irattar1 = null;
-        public string Irattar1
-        {
-            get { return _irattar1; }
-            set { _irattar1 = value; }
-        }
-
-        private string _irattar2 = null;
-        public string Irattar2
-        {
-            get { return _irattar2; }
-            set { _irattar2 = value; }
-        }
-        private string _irattar3 = null;
-        public string Irattar3
-        {
-            get { return _irattar3; }
-            set { _irattar3 = value; }
-        }
+        /// <summary>
+        /// Lekéri vagy beállítja az első dokumentumtárat.
+        /// </summary>
+        public string Irattar1 { get; set; }
+        /// <summary>
+        /// Lekéri vagy beállítja az második dokumentumtárat.
+        /// </summary>
+        public string Irattar2 { get; set; }
+        /// <summary>
+        /// Lekéri vagy beállítja az harmadik dokumentumtárat.
+        /// </summary>
+        public string Irattar3 { get; set; }
+        /// <summary>
+        /// Lekéri vagy beállítja a továbbított azonosítót.
+        /// </summary>
         public int? TovabbitvaAz { get; set;}
-
-        private string _egyeb = null;
-        public string Egyeb
-        {
-            get { return _egyeb; }
-            set { _egyeb = value; }
-        }
+        /// <summary>
+        /// Lekéri vagy beállítja a kiegészítő információkat.
+        /// </summary>
+        public string Egyeb { get; set; }
+        /// <summary>
+        /// Lekéri vagy beállítja a dokhelye sor készítőjének az azonosítóját.
+        /// </summary>
         public int CRU { get; set; }
+        /// <summary>
+        /// Lekéri vagy beállítja a dokhelye keletkezésének a dátumát.
+        /// </summary>
         public DateTime CRD { get; set; }
+        /// <summary>
+        /// Lekéri vagy beállítja a dokhelye sor utolsó frissítőjének az azonosítóját.
+        /// </summary>
         public int LMU { get; set; }
+        /// <summary>
+        /// Lekéri vagy beállítja a dokhelye sor utolsó frissítőjének a dátumát.
+        /// </summary>
         public DateTime LMD { get; set; }
 
+        /// <summary>
+        /// Lekéri az Dokhelye példányok listáját az adatbázisból.
+        /// </summary>
+        /// <param name="dbc">Az adatbázis contextus</param>
+        /// <returns>Az Dokhelye példányok listája.</returns>
         public List<Dokhelye> GetDocHely(DB dbc)
         {
             List<SqlParameter> empty = new List<SqlParameter>();

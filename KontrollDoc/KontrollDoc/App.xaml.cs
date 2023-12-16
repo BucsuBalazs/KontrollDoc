@@ -6,22 +6,15 @@ using Xamarin.Forms.Xaml;
 namespace KontrollDoc
 {
     public partial class App : Application
-    {
-        
+    { 
 
         public App()
         {
             InitializeComponent();
 
-
+            // Hierarchikus navigáció gyökerének beállítása.
             MainPage = new NavigationPage(new Views.LoginPage());
 
-        }
-
-        public async Task NavigateToNativePageAsync()
-        {
-            var nativeNavigationService = DependencyService.Get<INativeNavigationService>();
-            await nativeNavigationService.NavigateToScanPageAsync();
         }
 
         protected override void OnStart()

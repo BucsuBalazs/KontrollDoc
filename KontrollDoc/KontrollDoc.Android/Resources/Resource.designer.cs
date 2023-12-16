@@ -16655,13 +16655,22 @@ namespace KontrollDoc.Droid
 			public const int preference_list_divider_material = 2131165324;
 			
 			// aapt resource value: 0x7F07008D
-			public const int test_custom_background = 2131165325;
+			public const int printer = 2131165325;
 			
 			// aapt resource value: 0x7F07008E
-			public const int tooltip_frame_dark = 2131165326;
+			public const int reload = 2131165326;
 			
 			// aapt resource value: 0x7F07008F
-			public const int tooltip_frame_light = 2131165327;
+			public const int scanner2 = 2131165327;
+			
+			// aapt resource value: 0x7F070090
+			public const int test_custom_background = 2131165328;
+			
+			// aapt resource value: 0x7F070091
+			public const int tooltip_frame_dark = 2131165329;
+			
+			// aapt resource value: 0x7F070092
+			public const int tooltip_frame_light = 2131165330;
 			
 			static Drawable()
 			{
@@ -18780,14 +18789,26 @@ namespace KontrollDoc.Droid
 		public partial class Mipmap
 		{
 			
+			// aapt resource value: 0x7F0C0003
+			public const int icon = 2131492867;
+			
+			// aapt resource value: 0x7F0C0004
+			public const int icon_round = 2131492868;
+			
 			// aapt resource value: 0x7F0C0000
-			public const int icon = 2131492864;
+			public const int ic_launcher = 2131492864;
 			
 			// aapt resource value: 0x7F0C0001
-			public const int icon_round = 2131492865;
+			public const int ic_launcher_foreground = 2131492865;
 			
 			// aapt resource value: 0x7F0C0002
-			public const int launcher_foreground = 2131492866;
+			public const int ic_launcher_round = 2131492866;
+			
+			// aapt resource value: 0x7F0C0005
+			public const int Iic_launcher = 2131492869;
+			
+			// aapt resource value: 0x7F0C0006
+			public const int launcher_foreground = 2131492870;
 			
 			static Mipmap()
 			{

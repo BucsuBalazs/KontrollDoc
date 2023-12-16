@@ -13,26 +13,36 @@ using Xamarin.Forms.Xaml;
 namespace KontrollDoc.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
+    /// <summary>
+    /// Egy ContentPage amely az új partner létrehozsához használt eseményeket metódusokat biztosítja.
+    /// </summary>
     public partial class PartnerNew : ContentPage
     {
-
+        /// <summary>
+        /// Az adatbázis környezet.
+        /// </summary>
         DB dbc;
+        /// <summary>
+        /// Inicializálja a <see cref="PartnerNew"/> osztály új példányát.
+        /// </summary>
+        /// <param name="dbc">Az adatbázis környezet.</param>
         public PartnerNew(DB dbc)
         {
             InitializeComponent();
 
             this.dbc = dbc;
-
-            //DisplayAlert("Figyelem","A KontrollDoc alkalmazás még nincs bekötve a NAV Online rendszerhez ezért minden új partner felvétel csak a belső rendszerbe lesz feltöltve","Ok");
         }
-
+        /// <summary>
+        /// Az oldal megjelenésekor hívják. Betölti a partnertorzset és megjeleníti a pickerekbe.
+        /// </summary>
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-
+            // Partnertörzsek lekérése.
             PartnerHelyseg helysegek = new PartnerHelyseg();
 
+            // Partnertörzsek betöltése.
             Helyseg_Picker.ItemsSource = helysegek.GetHelysegek(dbc);
             Helyseg_Picker.ItemDisplayBinding = new Binding("Megnevezes");
 
@@ -54,6 +64,7 @@ namespace KontrollDoc.Views
         {
             try
             {
+                // új Partner adatainak beállítása
                 List<SqlParameter> PartnerUjparams = new List<SqlParameter>();
 
                 SqlParameter Kod = new SqlParameter();
@@ -124,7 +135,7 @@ namespace KontrollDoc.Views
 
                 SqlParameter Megjegyzes = new SqlParameter();
                 Megjegyzes.ParameterName = "@Megjegyzes";
-                Megjegyzes.Value = Megjegyzes_Entry.Text;
+                if (Megjegyzes_Entry.Text == null) { Megjegyzes.Value = ""; } else { Megjegyzes.Value = Megjegyzes_Entry.Text; }
                 PartnerUjparams.Add(Megjegyzes);
 
                 SqlParameter BizTipAz = new SqlParameter();
@@ -154,14 +165,15 @@ namespace KontrollDoc.Views
                 Inaktiv.ParameterName = "@Inaktiv";
                 Inaktiv.Value = Inaktiv_Checkbox.IsChecked;
                 PartnerUjparams.Add(Inaktiv);
-
+                // új partner feltöltése.
                 dbc.ExecuteSPAB("PartnerUj", PartnerUjparams);
 
+                // Vissza navigálás.
                 await Navigation.PopAsync();
             }
             catch (Exception ex) 
             {
-                await DisplayAlert("Hiba", ex.Message, "Ok");
+                await DisplayAlert("Hiba", "Figyeljen arra hogy minden *-gal jelölt adatot ki kell tölteni! Valamint hogy helyesen töltse ki.", "Ok");
             }
         }
     }

@@ -9,6 +9,10 @@ using System.Text;
 using System.Net.NetworkInformation;
 using Microsoft.SqlServer.Server;
 
+/// <summary>
+/// Fit Számítástechnikától kapott osztály.
+/// </summary>
+
 namespace FIT_Common
 {
     public delegate void Ret();

@@ -4,20 +4,35 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 
 namespace KontrollDoc.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
+    /// <summary>
+    /// Egy ContentPage amely Dokumentum adatainak való megjelenítéséért és frissítésért felelős
+    /// </summary>
     public partial class PartnerEdit : ContentPage
     {
+        /// <summary>
+        /// Az adatbázis környezet.
+        /// </summary>
         DB dbc;
+        /// <summary>
+        /// Kiválasztott partner azonosítója.
+        /// </summary>
         int selectedItemAzonosito;
-
+        /// <summary>
+        /// Inicializálja a <see cref="PartnerEdit"/> osztály új példányát a kiválasztott partner meghatározott sorszámával.
+        /// </summary>
+        /// <param name="dbc">Az adatbázis környezet.</param>
+        /// <param name="selectedItemAzonosito">A kiválasztott partner sorszáma.</param>
         public PartnerEdit(DB dbc, int selectedItemAzonosito)
         {
             InitializeComponent();
@@ -25,11 +40,14 @@ namespace KontrollDoc.Views
             this.dbc = dbc;
             this.selectedItemAzonosito = selectedItemAzonosito;
         }
-
+        /// <summary>
+        /// Az oldal megjelenésekor hívják. Betölti az partnertörzset és a kivaálsztott partner adatait.
+        /// </summary>
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
+            // partnertörzs betöltése.
             PartnerHelyseg helysegek= new PartnerHelyseg();
 
             List<PartnerHelyseg> helysegekList = helysegek.GetHelysegek(dbc);
@@ -56,16 +74,17 @@ namespace KontrollDoc.Views
             Fizetes_Picker.ItemDisplayBinding = new Binding("Megnevezes");
 
 
-
+            // Partner adatainak lekéréhez beállítások
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
             SqlParameter sqlParameter = new SqlParameter();
             sqlParameter.ParameterName = "@Az";
             sqlParameter.Value = selectedItemAzonosito;
             sqlParameters.Add(sqlParameter);
-
+            // Partner adatainak letöltése.
             System.Data.DataTable dataTable = dbc.GetTableFromSPAB("PartnerAdat", sqlParameters);
             System.Data.DataRow dr = dataTable.Rows[0];
 
+            // Partner adatainak betöltése.
             Kod_Entry.Text = (string)dr["Kod"];
             Nev_Entry.Text = (string)dr["Nev"];
             KNev_Entry.Text = (string)dr["KeresoNev"];
@@ -92,15 +111,15 @@ namespace KontrollDoc.Views
             Artipus_Picker.SelectedItem = artip;
             Inaktiv_Checkbox.IsChecked = (bool)dr["Inaktiv"];
 
-
-
         }
-
+        /// <summary>
+        /// A Frissít gomb eseménykezelője.
+        /// </summary>
         private async void Frissit_Clicked(object sender, EventArgs e)
         {
             try
             {
-
+                // Partner frissítéséhez beállítások
                 List<SqlParameter> PartnerModositparams = new List<SqlParameter>();
 
                 SqlParameter Az = new SqlParameter();
@@ -206,14 +225,14 @@ namespace KontrollDoc.Views
                 Inaktiv.ParameterName = "@Inaktiv";
                 Inaktiv.Value = Inaktiv_Checkbox.IsChecked;
                 PartnerModositparams.Add(Inaktiv);
-
+                // Partner frissítése.
                 dbc.ExecuteSPAB("PartnerModosit", PartnerModositparams);
-
+                // vissza navigálás.
                 await Navigation.PopAsync();
             }
             catch (Exception ex) 
             {
-                await DisplayAlert("Hiba", ex.Message, "Ok");
+                await DisplayAlert("Hiba", "Figyeljen arra hogy minden *-gal jelölt adatot ki kell tölteni! Valamint hogy helyesen töltse ki.", "Ok");
             }
         }
     }
